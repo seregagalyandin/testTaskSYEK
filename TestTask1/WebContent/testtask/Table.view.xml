@@ -9,9 +9,9 @@
 	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
 	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
 	xmlns:smartForm="sap.ui.comp.smartform" xmlns:f="sap.ui.layout.form"
-	controllerName="sap.myApps.testtask.workdesk"
+	controllerName="sap.myApps.testtask.table"
 	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
-	<m:Page id="MainPage" showHeader="false" enableScrolling="false"
+	<m:Page id="TablePage" showHeader="false" enableScrolling="false"
 		class="sapUiContentPadding">
 		<m:headerContent>
 			<m:Button icon="sap-icon://exit" text="Выход" />

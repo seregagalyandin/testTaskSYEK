@@ -8,7 +8,9 @@
 	xmlns:personal="sap.uxap.sample.SharedBlocks.personal"
 	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
 	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
-	xmlns:smartForm="sap.ui.comp.smartform" xmlns:f="sap.ui.layout.form"
+	xmlns:smartForm="sap.ui.comp.smartform" 
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
 	controllerName="sap.myApps.testtask.workdesk"
 	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
 	<m:Page id="MainPage" showHeader="false" enableScrolling="false"
@@ -22,8 +24,20 @@
 					<core:Title text="Анкета" />
 				</f:title>
 				<f:layout>
-					<f:ColumnLayout columnsM="1" columnsL="1"
-						columnsXL="1" />
+				<f:ResponsiveGridLayout
+					labelSpanXL="1"
+					labelSpanL="1"
+					labelSpanM="1"
+					labelSpanS="1"
+					adjustLabelSpan="false"
+					emptySpanXL="1"
+					emptySpanL="1"
+					emptySpanM="1"
+					emptySpanS="1"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
 				</f:layout>
 				<f:formContainers>
 					<f:FormContainer title="{i18n>user_info}">
@@ -57,7 +71,7 @@
 									<m:DatePicker id="date_of_birth"
 										placeholder="{i18n>date_placeholder}" change="onDateOfBirth"
 										visible="{editModel>isEdit}" />
-									<m:Text text="{DateOfBirth}" id="patronymicText"
+									<m:Text text="{DateOfBirth}" id="date_of_birthText"
 										visible="{editModel>isDisplay}" />
 								</f:fields>
 							</f:FormElement>
@@ -154,10 +168,6 @@
 						<f:formElements items="{path: 'Educations'}">
 							<f:FormElement>
 								<f:Form editable="true">
-									<f:layout>
-										<f:ColumnLayout columnsM="1" columnsL="1"
-											columnsXL="1" />
-									</f:layout>
 									<f:formContainers>
 										<f:FormContainer>
 											<f:formElements>

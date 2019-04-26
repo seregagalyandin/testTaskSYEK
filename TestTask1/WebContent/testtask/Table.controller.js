@@ -6,7 +6,7 @@ sap.ui
 					"use strict";
 					return Controller
 							.extend(
-									"sap.myApps.testtask.workdesk",
+									"sap.myApps.testtask.table",
 									{
 										formatter : formatter,
 
@@ -42,7 +42,7 @@ sap.ui
 											 
 										     this.getView().setModel(i18nModel, "i18n");
 										     
-										     var oModel = new JSONModel(sap.ui.require.toUrl("sap.myApps.model") + "/Tree.json");
+										     var oModel = new JSONModel(sap.ui.require.toUrl("sap/myApps/model") + "/Tree.json");
 										     this.getView().setModel(oModel);
 										},
 

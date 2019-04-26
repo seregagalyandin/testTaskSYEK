@@ -42,10 +42,10 @@ sap.ui
 											 
 										     this.getView().setModel(i18nModel, "i18n");
 										     
-										     var oEditModel = new JSONModel(sap.ui.require.toUrl("sap.myApps.model") + ".editModel");
+										     var oEditModel = new JSONModel(sap.ui.require.toUrl("sap/myApps/model") + "/editModel");
 										     this.getView().setModel(oEditModel, "editModel");
 										     
-										     var oEditModel = new JSONModel(sap.ui.require.toUrl("sap.myApps.model") + ".userModel");
+										     var oEditModel = new JSONModel(sap.ui.require.toUrl("sap/myApps/model") + "/userModel");
 										     this.getView().setModel(oEditModel);
 										},
 										
