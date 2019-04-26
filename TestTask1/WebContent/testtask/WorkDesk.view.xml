@@ -1,0 +1,216 @@
+<core:View xmlns:core="sap.ui.core" xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core" xmlns:m="sap.m" xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:sample="sap.uxap.sample.SharedBlocks"
+	xmlns:goals="sap.uxap.sample.SharedBlocks.goals"
+	xmlns:calendar="sap.ui.unified.calendar"
+	xmlns:personal="sap.uxap.sample.SharedBlocks.personal"
+	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
+	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
+	xmlns:smartForm="sap.ui.comp.smartform" xmlns:f="sap.ui.layout.form"
+	controllerName="sap.myApps.testtask.workdesk"
+	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
+	<m:Page id="MainPage" showHeader="false" enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:headerContent>
+			<m:Button icon="sap-icon://exit" text="Выход" />
+		</m:headerContent>
+		<m:content>
+			<f:Form id="formUserInfo" editable="true">
+				<f:title>
+					<core:Title text="Анкета" />
+				</f:title>
+				<f:layout>
+					<f:ColumnLayout columnsM="1" columnsL="1"
+						columnsXL="1" />
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="{i18n>user_info}">
+						<f:formElements>
+							<f:FormElement label="{i18n>surname}">
+								<f:fields>
+									<m:Input id="surname" visible="{editModel>isEdit}"
+										liveChange="onChangeSurname" />
+									<m:Text text="{Surname}" id="surnameText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>name}">
+								<f:fields>
+									<m:Input id="name" visible="{editModel>isEdit}"
+										liveChange="onChangeName" />
+									<m:Text text="{Name}" id="nameText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>patronymic}">
+								<f:fields>
+									<m:Input id="patronymic" visible="{editModel>isEdit}"
+										liveChange="onChangePatronymic" />
+									<m:Text text="{Patronymic}" id="patronymicText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>date_of_birth}">
+								<f:fields>
+									<m:DatePicker id="date_of_birth"
+										placeholder="{i18n>date_placeholder}" change="onDateOfBirth"
+										visible="{editModel>isEdit}" />
+									<m:Text text="{DateOfBirth}" id="patronymicText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>age}">
+								<f:fields>
+									<m:Text text="{Age}" id="ageText" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer title="{i18n>user_doc}">
+						<f:formElements>
+							<f:FormElement label="{i18n>surname}">
+								<f:fields>
+									<m:Select id="selectDoc" change="onChangeSelDoc"
+										visible="{editModel>isEdit}">
+										<m:Items>
+											<core:Item key="1" text="{i18n>pasport}" />
+											<core:Item key="2" text="{i18n>snils}" />
+										</m:Items>
+										<m:Text text="{SelectDoc}" id="selectDocText"
+											visible="{editModel>isDisplay}" />
+									</m:Select>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>serial_number_pasport}"
+								visible="editModel>isPasport">
+								<f:fields>
+									<m:Input id="serialPas" visible="{editModel>isEdit}"
+										liveChange="onChangeSerialPas">
+										<layoutData>
+											<layout:GridData span="XL1 L2 M2 S4" />
+										</layoutData>
+									</m:Input>
+									<m:Text text="{SerialPas}" id="serialPasText"
+										visible="{editModel>isDisplay}" />
+									<m:Input id="numberPas" visible="{editModel>isEdit}"
+										liveChange="onChangeNumberPas" />
+									<m:Text text="{NumberPas}" id="numberPasText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>issued_by}"
+								visible="editModel>isPasport">
+								<f:fields>
+									<m:Input id="issuedByPas" visible="{editModel>isEdit}"
+										liveChange="onChangeIssuedByPas" />
+									<m:Text text="{IssuedByPas}" id="issuedByPasText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>date_of_issue}"
+								visible="editModel>isPasport">
+								<f:fields>
+									<m:DatePicker id="dateOfIssuePas"
+										placeholder="{i18n>date_placeholder}"
+										change="onChangeDateOfIssuePas" visible="{editModel>isEdit}" />
+									<m:Text text="{DateOfIssuePas}" id="dateOfIssuePasText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>unit_code}"
+								visible="editModel>isPasport">
+								<f:fields>
+									<MaskInput mask="CCC-CCC" placeholderSymbol="_"
+										change="onChangeUnitCodePas" visible="{editModel>isEdit}">
+										<rules>
+											<MaskInputRule maskFormatSymbol="C"
+												regex="[A-Z0-6]" />
+										</rules>
+									</MaskInput>
+									<m:Text text="{UnitCodePas}" id="unitCodePasText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>snils_number}"
+								visible="editModel>isSnils">
+								<f:fields>
+									<MaskInput mask="CCC-CCC-CCC CC"
+										placeholderSymbol="_" change="onChangeSnilsNumberPas"
+										id="snilsNumberPas" visible="{editModel>isEdit}">
+										<rules>
+											<MaskInputRule maskFormatSymbol="C"
+												regex="[A-Z0-9]" />
+										</rules>
+									</MaskInput>
+									<m:Text text="{SnilsNumberPas}" id="snilsNumberPasText"
+										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer title="{i18n>user_education}">
+						<f:formElements items="{path: 'Educations'}">
+							<f:FormElement>
+								<f:Form editable="true">
+									<f:layout>
+										<f:ColumnLayout columnsM="1" columnsL="1"
+											columnsXL="1" />
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer>
+											<f:formElements>
+												<f:FormElement label="{i18n>year_start}">
+													<f:fields>
+														<calendar:YearPicker change="onChangeYearStart"
+															visible="{editModel>isEdit}"/>
+														<m:Text text="{YearStart}" visible="{editModel>isDisplay}" />
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="{i18n>year_end}">
+													<f:fields>
+														<calendar:YearPicker change="onChangeYearEnd" visible="{editModel>isEdit}" />
+														<m:Text text="{YearEnd}" visible="{editModel>isDisplay}" />
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="{i18n>name_institution}">
+													<f:fields>
+														<m:Input visible="{editModel>isEdit}"
+															liveChange="onChangeNameInstitution" />
+														<m:Text text="{NameInstitution}" visible="{editModel>isDisplay}" />
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="{i18n>name_faculty}">
+													<f:fields>
+														<m:Input visible="{editModel>isEdit}"
+															liveChange="onChangeNameFaculty" />
+														<m:Text text="{NameFaculty}" visible="{editModel>isDisplay}" />
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="{i18n>name_pulpit}">
+													<f:fields>
+														<m:Input visible="{editModel>isEdit}"
+															liveChange="onChangeNamePulpit" />
+														<m:Text value="{NamePulpit}" visible="{editModel>isDisplay}" />
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers>
+								</f:Form>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</m:content>
+		<m:footer>
+			<m:Toolbar>
+				<m:ToolbarSpacer />
+				<m:Button icon="sap-icon://create-form" text="{i18n>creat}"
+					type="Accept" press="onCreateAppeal" />
+			</m:Toolbar>
+		</m:footer>
+	</m:Page>
+</core:View>

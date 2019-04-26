@@ -1,0 +1,186 @@
+<core:View xmlns:core="sap.ui.core" xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core" xmlns:m="sap.m" xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:sample="sap.uxap.sample.SharedBlocks"
+	xmlns:goals="sap.uxap.sample.SharedBlocks.goals"
+	xmlns:personal="sap.uxap.sample.SharedBlocks.personal"
+	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
+	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
+	xmlns:f="sap.ui.layout.form"
+	controllerName="sap.myApps.testtask.workdesk"
+	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
+	<m:Page id="MainPage" showHeader="false" enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:headerContent>
+			<m:Button icon="sap-icon://exit" text="Выход" />
+		</m:headerContent>
+		<m:content>
+			<m:NavContainer id="MainNavCont" class="CustomPage">
+				<m:pages>
+					<m:Page id="WorkDesk" showHeader="false"
+						enableScrolling="false" class="sapUiContentPadding">
+						<Table id="tableAppeal" rows="{/AppealsSet}" height="75vh"
+							rowHeight="50" title="{i18n>appeals}" selectionMode="MultiToggle"
+							visibleRowCountMode="Auto" paste="onPaste">
+							<columns>
+								<Column width="">
+									<m:Label text="{i18n>number_appeal}" />
+									<template>
+										<m:Text text="{NumberAppeal}" wrapping="false" />
+									</template>
+								</Column>
+								<Column width="">
+									<m:Label text="{i18n>temes}" />
+									<template>
+										<m:Label text="{Temes}" />
+									</template>
+								</Column>
+								<Column width="">
+									<m:Label text="{i18n>text}" />
+									<template>
+										<m:Label text="{Text}" />
+									</template>
+								</Column>
+								<Column width="">
+									<m:Label text="{i18n>author}" />
+									<template>
+										<m:Label text="{Fio}" />
+									</template>
+								</Column>
+								<Column width="">
+									<m:Label text="{i18n>date_cr}" />
+									<template>
+										<m:Label
+											text="{path:'Datecr', type:'sap.ui.model.type.Date', formatOptions: { style: 'long'}}" />
+									</template>
+								</Column>
+								<Column width="60px">
+									<m:Label text="" />
+									<template>
+										<m:Button type="Emphasized" icon="sap-icon://accelerated"
+											press="onViewAppeal" />
+									</template>
+								</Column>
+							</columns>
+						</Table>
+					</m:Page>
+					<m:Page id="Workspace" showHeader="false" width="100%"
+						height="100%">
+						<m:content>
+							<uxap:ObjectPageLayout
+								id="ObjectPageLayout" enableLazyLoading="true"
+								useIconTabBar="false" showTitleInHeaderContent="false"
+								showHeaderButtonPress="true">
+								<uxap:headerTitle>
+									<uxap:ObjectPageHeader isObjectSubtitleAlwaysVisible="false" id="objTitle">
+									</uxap:ObjectPageHeader>
+								</uxap:headerTitle>
+
+								<uxap:headerContent>
+									<layout:VerticalLayout>
+										<m:ObjectStatus id="headDate"
+											title="{i18n>date_cr}" text="email@address.com" />
+										<m:ObjectStatus id="headText" title="{i18n>author}"
+											text="email@address.com" />
+									</layout:VerticalLayout>
+								</uxap:headerContent>
+
+								<uxap:sections>
+									<uxap:ObjectPageSection id="desc"
+										title="{i18n>description}">
+										<uxap:subSections>
+											<uxap:ObjectPageSubSection
+												id="goalsSS1" title="">
+												<uxap:blocks>
+													<f:Form id="FormChange354wide" editable="true">
+														<f:layout>
+															<f:ResponsiveGridLayout
+																labelSpanXL="4" labelSpanL="3" labelSpanM="4"
+																labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+																emptySpanL="4" emptySpanM="0" emptySpanS="0"
+																columnsXL="2" columnsL="1" columnsM="1"
+																singleContainerFullSize="false" />
+														</f:layout>
+														<f:formContainers>
+															<f:FormContainer>
+																<f:formElements>
+																	<f:FormElement label="{i18n>temes}">
+																		<f:fields>
+																			<m:Input id="temesUI" value="" />
+																		</f:fields>
+																	</f:FormElement>
+																	<f:FormElement label="{i18n>text}">
+																		<f:fields>
+																			<m:Input id="textUI" value="" />
+																		</f:fields>
+																	</f:FormElement>
+																</f:formElements>
+															</f:FormContainer>
+														</f:formContainers>
+													</f:Form>
+												</uxap:blocks>
+											</uxap:ObjectPageSubSection>
+										</uxap:subSections>
+									</uxap:ObjectPageSection>
+
+									<uxap:ObjectPageSection id="files"
+										title="{i18n>files}">
+										<uxap:subSections>
+											<uxap:ObjectPageSubSection
+												id="personalSS1" title="{i18n>files}">
+												<uxap:blocks>
+													<m:UploadCollection
+														instantUpload="false" id="UploadCollection"
+														multiple="true" change="onChange"
+														fileDeleted="onFileDeleted"
+														uploadComplete="onUploadComplete"
+														beforeUploadStarts="onBeforeUploadStarts"
+														uploadUrl="http://217.74.37.187:8000/sap/opu/odata/sap/ztesttask_srv/FilesSet"
+														items="{
+					path: '/FilesSet',
+					templateShareable: false
+				}"
+														numberOfAttachmentsText="" uploadButtonInvisible=""
+														mode="MultiSelect">
+														<m:toolbar>
+															<m:OverflowToolbar id="myId">
+																<m:Title id="attachmentTitle" />
+																<m:ToolbarSpacer />
+																<m:ToggleButton id="selectAllButton"
+																	text="Select all" press="onSelectAllPress"
+																	enabled="false" visible="false" type="Transparent" />
+																<m:UploadCollectionToolbarPlaceholder />
+															</m:OverflowToolbar>
+														</m:toolbar>
+														<m:items>
+															<m:UploadCollectionItem
+																visibleDelete="false" documentId="{NumberFile}"
+																fileName="{Name}" mimeType="{MimeType}"
+																url="{
+							part: '/NumberFile',
+							formatter: '.formatURL'
+						}">
+															</m:UploadCollectionItem>
+														</m:items>
+													</m:UploadCollection>
+												</uxap:blocks>
+											</uxap:ObjectPageSubSection>
+										</uxap:subSections>
+									</uxap:ObjectPageSection>
+								</uxap:sections>
+							</uxap:ObjectPageLayout>
+						</m:content>
+					</m:Page>
+				</m:pages>
+			</m:NavContainer>
+		</m:content>
+		<m:footer>
+			<m:Toolbar>
+				<m:ToolbarSpacer />
+				<m:Button icon="sap-icon://create-form" text="{i18n>creat}"
+					type="Accept" press="onCreateAppeal" />
+			</m:Toolbar>
+		</m:footer>
+	</m:Page>
+</core:View>
