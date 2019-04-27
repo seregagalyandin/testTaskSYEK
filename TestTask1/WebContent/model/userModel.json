@@ -1,26 +1,38 @@
 {
-	"Surname": "",
-	"Name": "",
-	"Patronymic": "",
-	"DateOfBirth": "",
-	"Age": "",
-	"SelectDoc": "Паспорт РФ",
-	"SelectDocKey": 1,
-	"SerialPas": "",
-	"NumberPas": "",
-	"IssuedByPas": "",
-	"DateOfIssuePas": "",
-	"UnitCodePas": "",
-	"SnilsNumberPas": "",
-	"": "",
-	"Educations": [
+	"UserInfo": {
+		"Surname": "",
+		"Name": "",
+		"Patronymic": "",
+		"DateOfBirth": "",
+		"Age": "",
+		"SelectDoc": "Паспорт РФ",
+		"SelectDocKey": 1,
+		"SerialPas": "",
+		"NumberPas": "",
+		"IssuedByPas": "",
+		"DateOfIssuePas": "",
+		"UnitCodePas": "",
+		"SnilsNumberPas": "",
+		"": "",
+		"Educations": [
+			{
+				"id": "0000",
+				"YearStart": "",
+				"YearEnd": "",
+				"NameInstitution": "",
+				"NameFaculty": "",
+				"NamePulpit": ""
+			}
+		]
+	},
+	"DocList": [
 		{
-			"id": "0000",
-			"YearStart": "",
-			"YearEnd": "",
-			"NameInstitution": "",
-			"NameFaculty": "",
-			"NamePulpit": ""
+			"KeyDoc": 1,
+			"NameDoc": "Паспорт РФ"
+		},
+		{
+			"KeyDoc": 2,
+			"NameDoc": "СНИЛС"
 		}
 	]
 }

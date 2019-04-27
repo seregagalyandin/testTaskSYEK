@@ -29,6 +29,14 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"uri": "i18n/i18n.properties"
+			},
+			"editModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/editModel.json"
+			},
+			"userModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/userModel.json"
 			}
 		},
 		"resources": {
@@ -72,6 +80,7 @@
 						"WorkDesk.view.xml",
 						"WorkDesk.controller.js",
 						"editModel.json",
+						"userModel.json",
 						"manifest.json"
 					]
 				}

@@ -84,14 +84,12 @@
 					</f:FormContainer>
 					<f:FormContainer title="{i18n>user_doc}">
 						<f:formElements>
-							<f:FormElement label="{i18n>surname}">
+							<f:FormElement label="{i18n>typeDoc}">
 								<f:fields>
 									<m:Select id="selectDoc" change="onChangeSelDoc"
-										visible="{editModel>isEdit}">
-										<m:Items>
-											<core:Item key="1" text="{i18n>pasport}" />
-											<core:Item key="2" text="{i18n>snils}" />
-										</m:Items>
+										visible="{editModel>isEdit}"
+										items="{ path: '/DocList', sorter: { path: 'KeyDoc' } }">
+											<core:Item key="{KeyDoc}" text="{NameDoc}" />
 										<m:Text text="{SelectDoc}" id="selectDocText"
 											visible="{editModel>isDisplay}" />
 									</m:Select>
@@ -102,9 +100,9 @@
 								<f:fields>
 									<m:Input id="serialPas" visible="{editModel>isEdit}"
 										liveChange="onChangeSerialPas">
-										<layoutData>
+										<m:layoutData>
 											<layout:GridData span="XL1 L2 M2 S4" />
-										</layoutData>
+										</m:layoutData>
 									</m:Input>
 									<m:Text text="{SerialPas}" id="serialPasText"
 										visible="{editModel>isDisplay}" />
@@ -136,13 +134,13 @@
 							<f:FormElement label="{i18n>unit_code}"
 								visible="editModel>isPasport">
 								<f:fields>
-									<MaskInput mask="CCC-CCC" placeholderSymbol="_"
+									<m:MaskInput mask="CCC-CCC" placeholderSymbol="_"
 										change="onChangeUnitCodePas" visible="{editModel>isEdit}">
-										<rules>
-											<MaskInputRule maskFormatSymbol="C"
+										<m:rules>
+											<m:MaskInputRule maskFormatSymbol="C"
 												regex="[A-Z0-6]" />
-										</rules>
-									</MaskInput>
+										</m:rules>
+									</m:MaskInput>
 									<m:Text text="{UnitCodePas}" id="unitCodePasText"
 										visible="{editModel>isDisplay}" />
 								</f:fields>
@@ -150,14 +148,14 @@
 							<f:FormElement label="{i18n>snils_number}"
 								visible="editModel>isSnils">
 								<f:fields>
-									<MaskInput mask="CCC-CCC-CCC CC"
+									<m:MaskInput mask="CCC-CCC-CCC CC"
 										placeholderSymbol="_" change="onChangeSnilsNumberPas"
 										id="snilsNumberPas" visible="{editModel>isEdit}">
-										<rules>
-											<MaskInputRule maskFormatSymbol="C"
+										<m:rules>
+											<m:MaskInputRule maskFormatSymbol="C"
 												regex="[A-Z0-9]" />
-										</rules>
-									</MaskInput>
+										</m:rules>
+									</m:MaskInput>
 									<m:Text text="{SnilsNumberPas}" id="snilsNumberPasText"
 										visible="{editModel>isDisplay}" />
 								</f:fields>
@@ -165,7 +163,7 @@
 						</f:formElements>
 					</f:FormContainer>
 					<f:FormContainer title="{i18n>user_education}">
-						<f:formElements items="{path: 'Educations'}">
+						<f:formElements items="{path: '/Educations'}">
 							<f:FormElement>
 								<f:Form editable="true">
 									<f:formContainers>
@@ -218,8 +216,8 @@
 		<m:footer>
 			<m:Toolbar>
 				<m:ToolbarSpacer />
-				<m:Button icon="sap-icon://create-form" text="{i18n>creat}"
-					type="Accept" press="onCreateAppeal" />
+				<m:Button icon="sap-icon://save" text="{i18n>save}"
+					type="Accept" press="onSave" />
 			</m:Toolbar>
 		</m:footer>
 	</m:Page>

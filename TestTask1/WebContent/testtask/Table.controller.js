@@ -1,8 +1,8 @@
 sap.ui
 		.define(
 				[ "sap/ui/core/mvc/Controller", "sap/myApps/model/formatter",
-					   "sap/ui/model/resource/ResourceModel" ],
-				function(Controller, formatter, ResourceModel) {
+					   "sap/ui/model/resource/ResourceModel", "sap/ui/model/json/JSONModel" ],
+				function(Controller, formatter, ResourceModel, JSONModel) {
 					"use strict";
 					return Controller
 							.extend(
@@ -42,7 +42,7 @@ sap.ui
 											 
 										     this.getView().setModel(i18nModel, "i18n");
 										     
-										     var oModel = new JSONModel(sap.ui.require.toUrl("sap/myApps/model") + "/Tree.json");
+										     var oModel = new JSONModel("model/editModel.json");
 										     this.getView().setModel(oModel);
 										},
 
