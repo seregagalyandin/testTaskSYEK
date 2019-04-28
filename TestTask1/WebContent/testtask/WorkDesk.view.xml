@@ -8,205 +8,269 @@
 	xmlns:personal="sap.uxap.sample.SharedBlocks.personal"
 	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
 	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
-	xmlns:smartForm="sap.ui.comp.smartform" 
-	xmlns:l="sap.ui.layout"
+	xmlns:smartForm="sap.ui.comp.smartform" xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
 	controllerName="sap.myApps.testtask.workdesk"
 	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
 	<m:Page id="MainPage" showHeader="false" enableScrolling="false"
 		class="sapUiContentPadding">
-		<m:headerContent>
-			<m:Button icon="sap-icon://exit" text="Выход" />
-		</m:headerContent>
 		<m:content>
-			<f:Form id="formUserInfo" editable="true">
+			<f:Form id="formUserInfo" class="formUserInfo"
+				editable="false">
 				<f:title>
-					<core:Title text="Анкета" />
+					<core:Title text="{i18n>profile}" />
 				</f:title>
 				<f:layout>
-				<f:ResponsiveGridLayout
-					labelSpanXL="1"
-					labelSpanL="1"
-					labelSpanM="1"
-					labelSpanS="1"
-					adjustLabelSpan="false"
-					emptySpanXL="1"
-					emptySpanL="1"
-					emptySpanM="1"
-					emptySpanS="1"
-					columnsXL="1"
-					columnsL="1"
-					columnsM="1"
-					singleContainerFullSize="false" />
+					<f:ResponsiveGridLayout labelSpanXL="12"
+						labelSpanL="12" labelSpanM="12" labelSpanS="12"
+						adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+						emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1"
+						columnsM="1" singleContainerFullSize="false" />
 				</f:layout>
-				<f:formContainers>
+				<f:formContainers class="formBody">
 					<f:FormContainer title="{i18n>user_info}">
 						<f:formElements>
-							<f:FormElement label="{i18n>surname}">
+							<f:FormElement label="{i18n>surname}"
+								visible="{editModel>/isEdit}">
 								<f:fields>
-									<m:Input id="surname" visible="{editModel>isEdit}"
-										liveChange="onChangeSurname" />
-									<m:Text text="{Surname}" id="surnameText"
-										visible="{editModel>isDisplay}" />
+									<m:Input value="{/UserInfo/Surname}" id="surname"
+										liveChange="onChangeSurname" required="true" maxLength="150" />
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="{i18n>name}">
+							<f:FormElement label="{i18n>surname}"
+								visible="{editModel>/isDisplay}">
 								<f:fields>
-									<m:Input id="name" visible="{editModel>isEdit}"
-										liveChange="onChangeName" />
-									<m:Text text="{Name}" id="nameText"
-										visible="{editModel>isDisplay}" />
+									<m:Text text="{/UserInfo/Surname}" id="surnameText" />
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="{i18n>patronymic}">
+							<f:FormElement label="{i18n>name}"
+								visible="{editModel>/isEdit}">
 								<f:fields>
-									<m:Input id="patronymic" visible="{editModel>isEdit}"
-										liveChange="onChangePatronymic" />
-									<m:Text text="{Patronymic}" id="patronymicText"
-										visible="{editModel>isDisplay}" />
+									<m:Input value="{/UserInfo/Name}" id="name"
+										liveChange="onChangeName" required="true" maxLength="150" />
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="{i18n>date_of_birth}">
+							<f:FormElement label="{i18n>name}"
+								visible="{editModel>/isDisplay}">
 								<f:fields>
-									<m:DatePicker id="date_of_birth"
-										placeholder="{i18n>date_placeholder}" change="onDateOfBirth"
-										visible="{editModel>isEdit}" />
-									<m:Text text="{DateOfBirth}" id="date_of_birthText"
-										visible="{editModel>isDisplay}" />
+									<m:Text text="{/UserInfo/Name}" id="nameText" />
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="{i18n>age}">
+							<f:FormElement label="{i18n>patronymic}"
+								visible="{editModel>/isEdit}">
 								<f:fields>
-									<m:Text text="{Age}" id="ageText" />
+									<m:Input value="{/UserInfo/Patronymic}" id="patronymic"
+										liveChange="onChangePatronymic" maxLength="150" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>patronymic}"
+								visible="{editModel>/isDisplay}">
+								<f:fields>
+									<m:Text text="{/UserInfo/Patronymic}"
+										id="patronymicText" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>date_of_birth}"
+								visible="{editModel>/isEdit}">
+								<f:fields>
+									<m:DatePicker id="date_of_birth" value="{/UserInfo/DateOfBirth}"
+										placeholder="{i18n>date_placeholder}" change="onDateOfBirth" required="true" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>date_of_birth}"
+								visible="{editModel>/isDisplay}">
+								<f:fields>
+									<m:Text text="{/UserInfo/DateOfBirth}"
+										id="date_of_birthText" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>age}" visible="{editModel>/isEdit}">
+								<f:fields>
+									<m:Input value="{/UserInfo/Age}" id="age" enabled="false" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>age}" visible="{editModel>/isDisplay}">
+								<f:fields>
+									<m:Text text="{/UserInfo/Age}" id="ageText" />
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
 					<f:FormContainer title="{i18n>user_doc}">
 						<f:formElements>
-							<f:FormElement label="{i18n>typeDoc}">
+							<f:FormElement label="{i18n>typeDoc}"
+								visible="{editModel>/isEdit}">
 								<f:fields>
-									<m:Select id="selectDoc" change="onChangeSelDoc"
-										visible="{editModel>isEdit}"
-										items="{ path: '/DocList', sorter: { path: 'KeyDoc' } }">
-											<core:Item key="{KeyDoc}" text="{NameDoc}" />
-										<m:Text text="{SelectDoc}" id="selectDocText"
-											visible="{editModel>isDisplay}" />
+									<m:Select id="selectDoc" change="onChangeSelDoc" 
+										selectedKey="{/UserInfo/SelectDocKey}"
+										items="{ path: '/DocList' }" required="true">
+										<core:Item key="{KeyDoc}" text="{NameDoc}" />
 									</m:Select>
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="{i18n>serial_number_pasport}"
-								visible="editModel>isPasport">
+							<f:FormElement label="{i18n>typeDoc}"
+								visible="{editModel>/isDisplay}">
 								<f:fields>
-									<m:Input id="serialPas" visible="{editModel>isEdit}"
-										liveChange="onChangeSerialPas">
+									<m:Text text="{/UserInfo/SelectDoc}" id="selectDocText" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>serial_number_pasport}"
+								visible="{parts:['editModel>/isPasport','editModel>/isEdit'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Input maxLength="4" required="true" value="{/UserInfo/SerialPas}" id="serialPas" liveChange="onChangeSerialPas">
 										<m:layoutData>
-											<layout:GridData span="XL1 L2 M2 S4" />
+											<layout:GridData span="XL4 L4 M4 S4" />
 										</m:layoutData>
 									</m:Input>
-									<m:Text text="{SerialPas}" id="serialPasText"
-										visible="{editModel>isDisplay}" />
-									<m:Input id="numberPas" visible="{editModel>isEdit}"
-										liveChange="onChangeNumberPas" />
-									<m:Text text="{NumberPas}" id="numberPasText"
-										visible="{editModel>isDisplay}" />
+									<m:Input maxLength="6" required="true" value="{/UserInfo/NumberPas}" id="numberPas" liveChange="onChangeNumberPas">
+										<m:layoutData>
+											<layout:GridData span="XL8 L8 M8 S8" />
+										</m:layoutData>
+									</m:Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>serial_number_pasport}"
+								visible="{parts:['editModel>/isPasport','editModel>/isDisplay'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Text text="{/UserInfo/SerialPas}" id="serialPasText">
+										<m:layoutData>
+											<layout:GridData span="XL4 L4 M4 S4" />
+										</m:layoutData>
+									</m:Text>
+									<m:Text text="{/UserInfo/NumberPas}" id="numberPasText">
+										<m:layoutData>
+											<layout:GridData span="XL8 L8 M8 S8" />
+										</m:layoutData>
+									</m:Text>
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>issued_by}"
-								visible="editModel>isPasport">
+								visible="{parts:['editModel>/isPasport','editModel>/isEdit'], formatter:'.formatter.isVisible'}">
 								<f:fields>
-									<m:Input id="issuedByPas" visible="{editModel>isEdit}"
+									<m:Input maxLength="250" required="true" value="{/UserInfo/IssuedByPas}" id="issuedByPas"
 										liveChange="onChangeIssuedByPas" />
-									<m:Text text="{IssuedByPas}" id="issuedByPasText"
-										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>issued_by}"
+								visible="{parts:['editModel>/isPasport','editModel>/isDisplay'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Text text="{/UserInfo/IssuedByPas}"
+										id="issuedByPasText" />
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>date_of_issue}"
-								visible="editModel>isPasport">
+								visible="{parts:['editModel>/isPasport','editModel>/isEdit'], formatter:'.formatter.isVisible'}">
 								<f:fields>
-									<m:DatePicker id="dateOfIssuePas"
+									<m:DatePicker value="{/UserInfo/DateOfIssuePas}"
+										id="dateOfIssuePas"
 										placeholder="{i18n>date_placeholder}"
-										change="onChangeDateOfIssuePas" visible="{editModel>isEdit}" />
-									<m:Text text="{DateOfIssuePas}" id="dateOfIssuePasText"
-										visible="{editModel>isDisplay}" />
+										change="onChangeDateOfIssuePas" required="true" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>date_of_issue}"
+								visible="{parts:['editModel>/isPasport','editModel>/isDisplay'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Text text="{/UserInfo/DateOfIssuePas}"
+										id="dateOfIssuePasText" />
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>unit_code}"
-								visible="editModel>isPasport">
+								visible="{parts:['editModel>/isPasport','editModel>/isEdit'], formatter:'.formatter.isVisible'}">
 								<f:fields>
-									<m:MaskInput mask="CCC-CCC" placeholderSymbol="_"
-										change="onChangeUnitCodePas" visible="{editModel>isEdit}">
+									<m:MaskInput required="true" value="{/UserInfo/UnitCodePas}" mask="CCC-CCC" placeholderSymbol="_"
+										change="onChangeUnitCodePas">
 										<m:rules>
 											<m:MaskInputRule maskFormatSymbol="C"
 												regex="[A-Z0-6]" />
 										</m:rules>
 									</m:MaskInput>
-									<m:Text text="{UnitCodePas}" id="unitCodePasText"
-										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>unit_code}"
+								visible="{parts:['editModel>/isPasport','editModel>/isDisplay'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Text text="{/UserInfo/UnitCodePas}"
+										id="unitCodePasText" />
 								</f:fields>
 							</f:FormElement>
 							<f:FormElement label="{i18n>snils_number}"
-								visible="editModel>isSnils">
+								visible="{parts:['editModel>/isSnils','editModel>/isEdit'], formatter:'.formatter.isVisible'}">
 								<f:fields>
-									<m:MaskInput mask="CCC-CCC-CCC CC"
+									<m:MaskInput required="true" value="{/UserInfo/SnilsNumberPas}" mask="CCC-CCC-CCC CC"
 										placeholderSymbol="_" change="onChangeSnilsNumberPas"
-										id="snilsNumberPas" visible="{editModel>isEdit}">
+										id="snilsNumberPas">
 										<m:rules>
 											<m:MaskInputRule maskFormatSymbol="C"
 												regex="[A-Z0-9]" />
 										</m:rules>
 									</m:MaskInput>
-									<m:Text text="{SnilsNumberPas}" id="snilsNumberPasText"
-										visible="{editModel>isDisplay}" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>snils_number}"
+								visible="{parts:['editModel>/isSnils','editModel>/isDisplay'], formatter:'.formatter.isVisible'}">
+								<f:fields>
+									<m:Text text="{/UserInfo/SnilsNumberPas}"
+										id="snilsNumberPasText" />
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
-					<f:FormContainer title="{i18n>user_education}">
-						<f:formElements items="{path: '/Educations'}">
+					<f:FormContainer title="{i18n>user_education}"
+						formElements="{path: '/Educations'}" id="educationsContainer">
+						<f:formElements>
 							<f:FormElement>
-								<f:Form editable="true">
-									<f:formContainers>
-										<f:FormContainer>
-											<f:formElements>
-												<f:FormElement label="{i18n>year_start}">
-													<f:fields>
-														<calendar:YearPicker change="onChangeYearStart"
-															visible="{editModel>isEdit}"/>
-														<m:Text text="{YearStart}" visible="{editModel>isDisplay}" />
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="{i18n>year_end}">
-													<f:fields>
-														<calendar:YearPicker change="onChangeYearEnd" visible="{editModel>isEdit}" />
-														<m:Text text="{YearEnd}" visible="{editModel>isDisplay}" />
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="{i18n>name_institution}">
-													<f:fields>
-														<m:Input visible="{editModel>isEdit}"
-															liveChange="onChangeNameInstitution" />
-														<m:Text text="{NameInstitution}" visible="{editModel>isDisplay}" />
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="{i18n>name_faculty}">
-													<f:fields>
-														<m:Input visible="{editModel>isEdit}"
-															liveChange="onChangeNameFaculty" />
-														<m:Text text="{NameFaculty}" visible="{editModel>isDisplay}" />
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="{i18n>name_pulpit}">
-													<f:fields>
-														<m:Input visible="{editModel>isEdit}"
-															liveChange="onChangeNamePulpit" />
-														<m:Text value="{NamePulpit}" visible="{editModel>isDisplay}" />
-													</f:fields>
-												</f:FormElement>
-											</f:formElements>
-										</f:FormContainer>
-									</f:formContainers>
-								</f:Form>
+								<f:fields>
+									<f:SimpleForm class="formEducations"
+										editable="false" layout="ResponsiveGridLayout"
+										labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+										labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+										emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1"
+										columnsL="1" columnsM="1" singleContainerFullSize="false">
+										<f:content>
+											<m:Label text="{i18n>year_start}"
+												visible="{editModel>/isEdit}" />
+											<m:StepInput required="true" value="{YearStart}" min="1920" max="2099"
+												step="1" change="onChangeYearStart"
+												visible="{editModel>/isEdit}" />
+											<m:Label text="{i18n>year_start}"
+												visible="{editModel>/isDisplay}" />
+											<m:Text text="{YearStart}"
+												visible="{editModel>/isDisplay}" />
+											<m:Label text="{i18n>year_end}" />
+											<m:StepInput value="{YearEnd}" min="1920" max="2099"
+												step="1" change="onChangeYearEnd"
+												visible="{editModel>/isEdit}" />
+											<m:Label text="{i18n>year_end}"
+												visible="{editModel>/isDisplay}" />
+											<m:Text text="{YearEnd}"
+												visible="{editModel>/isDisplay}" />
+											<m:Label text="{i18n>name_institution}"
+												visible="{editModel>/isEdit}" />
+											<m:Input maxLength="300" value="{NameInstitution}" required="true" liveChange="onChangeNameInstitution"
+												visible="{editModel>/isEdit}" />
+											<m:Label text="{i18n>name_institution}"
+												visible="{editModel>/isDisplay}" />
+											<m:Text text="{NameInstitution}"
+												visible="{editModel>/isDisplay}" />
+											<m:Label text="{i18n>name_faculty}"
+												visible="{editModel>/isEdit}" />
+											<m:Input maxLength="300" value="{NameFaculty}" required="true" liveChange="onChangeNameFaculty"
+												visible="{editModel>/isEdit}" />
+											<m:Label text="{i18n>name_faculty}"
+												visible="{editModel>/isDisplay}" />
+											<m:Text text="{NameFaculty}"
+												visible="{editModel>/isDisplay}" />
+											<m:Label text="{i18n>name_pulpit}"
+												visible="{editModel>/isEdit}" />
+											<m:Input maxLength="300" value="{NamePulpit}" required="true" liveChange="onChangeNamePulpit"
+												visible="{editModel>/isEdit}" />
+											<m:Label text="{i18n>name_pulpit}"
+												visible="{editModel>/isDisplay}" />
+											<m:Text text="{NamePulpit}"
+												visible="{editModel>/isDisplay}" />
+										</f:content>
+									</f:SimpleForm>
+								</f:fields>
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
@@ -214,8 +278,12 @@
 			</f:Form>
 		</m:content>
 		<m:footer>
-			<m:Toolbar>
+			<m:Toolbar class="mainFootter">
 				<m:ToolbarSpacer />
+				<m:Button width="120px" icon="sap-icon://delete" text="{i18n>remove}"
+					type="Emphasized" press="onRemoveEdu" />
+				<m:Button width="120px" icon="sap-icon://create" text="{i18n>add}"
+					type="Emphasized" press="onAddEdu" />
 				<m:Button icon="sap-icon://save" text="{i18n>save}"
 					type="Accept" press="onSave" />
 			</m:Toolbar>

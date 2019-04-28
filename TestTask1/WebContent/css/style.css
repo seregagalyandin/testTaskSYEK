@@ -5,3 +5,86 @@
 #idAnalitic1 {
 	background-color: white;
 }
+
+.formUserInfo > div > div:nth-child(2) {
+	height: calc( 100vh - 96px );
+    overflow: auto;
+}
+
+.formEducations > div > div > div {
+	padding: 0;
+}
+
+.formEducations > div > div > div > div > div > div {
+	padding: 0 0 0.25rem 0;
+}
+
+@media (min-width:1200px){
+	.formUserInfo > div > div:nth-child(2) {
+		padding: 0 300px 0 300px;
+	}
+	
+	.formUserInfo > div > h4 {
+		padding: 0 300px 0 304px !important;
+	}
+	
+	.mainFootter {
+		padding: 0 315px 0 300px;
+	}
+}
+
+@media (min-width:1000px) and (max-width:1199px) {
+	.formUserInfo > div > div:nth-child(2) {
+		padding: 0 200px 0 200px;
+	}
+	
+	.formUserInfo > div > h4 {
+		padding: 0 200px 0 204px !important;
+	}
+	
+	.mainFootter {
+		padding: 0 215px 0 200px;
+	}
+}
+
+@media (min-width:800px) and (max-width:999px) {
+	.formUserInfo > div > div:nth-child(2) {
+		padding: 0 100px 0 100px;
+	}
+	
+	.formUserInfo > div > h4 {
+		padding: 0 100px 0 104px !important;
+	}
+	
+	.mainFootter {
+		padding: 0 115px 0 100px;
+	}
+}
+
+@media (min-width:600px) and (max-width:799px) {
+	.formUserInfo > div > div:nth-child(2) {
+		padding: 0 50px 0 50px;
+	}
+	
+	.formUserInfo > div > h4 {
+		padding: 0 50px 0 54px !important;
+	}
+	
+	.mainFootter {
+		padding: 0 65px 0 50px;
+	}
+}
+
+@media (max-width:599px) {
+	.formUserInfo > div > div:nth-child(2) {
+		padding: 0 10px 0 10px;
+	}
+	
+	.formUserInfo > div > h4 {
+		padding: 0 10px 0 14px !important;
+	}
+	
+	.mainFootter {
+		padding: 0 25px 0 10px;
+	}
+}
