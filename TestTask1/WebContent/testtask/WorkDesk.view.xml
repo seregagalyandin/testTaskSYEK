@@ -234,7 +234,7 @@
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
-					<f:FormContainer title="{i18n>user_education}" id="educationsContainer">
+					<f:FormContainer title="{i18n>user_education}" id="educationsContainer" class="educationsContainer">
 						<f:formElements>
 							
 						</f:formElements>
@@ -244,11 +244,11 @@
 		</m:content>
 		<m:footer>
 			<m:Toolbar class="mainFootter">
-				<m:ToolbarSpacer />
 				<m:Button width="120px" icon="sap-icon://delete" text="{i18n>remove}"
 					type="Emphasized" press="onRemoveEdu" />
 				<m:Button width="120px" icon="sap-icon://create" text="{i18n>add}"
 					type="Emphasized" press="onAddEdu" />
+				<m:ToolbarSpacer />
 				<m:Button icon="sap-icon://save" text="{i18n>save}"
 					type="Accept" press="onSave" />
 			</m:Toolbar>

@@ -108,13 +108,15 @@ sap.ui
 													.getModel("i18n")
 													.getResourceBundle();
 
-											container.removeAllFormElements();
+											//container.removeAllFormElements();
+											container.destroyFormElements();
 
 											if (editModel.isEdit
 													&& !editModel.idDisplay) {
 												data.Educations.forEach(function(item, i) {
 															container.addFormElement(
 																	new sap.ui.layout.form.FormElement({
+																		id: "elem-" + item.Id,
 																		fields: [
 																			new sap.ui.layout.form.SimpleForm(
 																			{
@@ -147,9 +149,9 @@ sap.ui
 																									min : 1920,
 																									max : 2099,
 																									step : 1,
-																									change : function() {
+																									change : function(oEvent) {
 																										self
-																												.onChangeYearStart()
+																												.onChangeYearStart(oEvent)
 																									}
 																								}),
 																						new sap.m.Label(
@@ -164,9 +166,9 @@ sap.ui
 																									min : 1920,
 																									max : 2099,
 																									step : 1,
-																									change : function() {
+																									change : function(oEvent) {
 																										self
-																												.onChangeYearEnd()
+																												.onChangeYearEnd(oEvent)
 																									}
 																								}),
 																						new sap.m.Label(
@@ -180,9 +182,9 @@ sap.ui
 																									maxLength : 300,
 																									value : item.NameInstitution,
 																									required : true,
-																									liveChange : function() {
+																									liveChange : function(oEvent) {
 																										self
-																												.onChangeNameInstitution()
+																												.onChangeNameInstitution(oEvent)
 																									}
 																								}),
 																						new sap.m.Label(
@@ -196,9 +198,9 @@ sap.ui
 																									maxLength : 300,
 																									value : item.NameFaculty,
 																									required : true,
-																									liveChange : function() {
+																									liveChange : function(oEvent) {
 																										self
-																												.onChangeNameFaculty()
+																												.onChangeNameFaculty(oEvent)
 																									}
 																								}),
 																						new sap.m.Label(
@@ -212,9 +214,9 @@ sap.ui
 																									maxLength : 300,
 																									value : item.NamePulpit,
 																									required : true,
-																									liveChange : function() {
+																									liveChange : function(oEvent) {
 																										self
-																												.onChangeNamePulpit()
+																												.onChangeNamePulpit(oEvent)
 																									}
 																								})
 																						]
@@ -224,7 +226,11 @@ sap.ui
 											} else if (!editModel.isEdit
 													&& editModel.isDisplay) {
 												data.Educations.forEach(function(item, i) {
-													container.addFormElement(new sap.ui.layout.form.SimpleForm(
+													container.addFormElement(
+															new sap.ui.layout.form.FormElement({
+																id: "elem-" + item.Id,
+																fields: [
+																	new sap.ui.layout.form.SimpleForm(
 																	{
 																		editable : false,
 																		layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
@@ -287,102 +293,249 @@ sap.ui
 																						{
 																							text : item.NamePulpit
 																						}) ]
-																	}).addStyleClass("formEducations"));
+																	}).addStyleClass("formEducations")]}));
 												});
 											}
 										},
+										
+										contentAddEducations : function(edu) { 
 
-										isCheckInput : function(id, data) {
-											var el = this.getView().byId(id);
+											var self = this;
 
+											var container = this.getView().byId("educationsContainer");
+											
+											var bundle = this.getView()
+													.getModel("i18n")
+													.getResourceBundle();
+											
+											container.addFormElement(
+													new sap.ui.layout.form.FormElement({
+														id: "elem-" + edu.Id,
+														fields: [
+															new sap.ui.layout.form.SimpleForm(
+															{
+																editable : false,
+																layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+																labelSpanXL : 12,
+																labelSpanL : 12,
+																labelSpanM : 12,
+																labelSpanS : 12,
+																adjustLabelSpan : false,
+																emptySpanXL : 0,
+																emptySpanL : 0,
+																emptySpanM : 0,
+																emptySpanS : 0,
+																columnsXL : 1,
+																columnsL : 1,
+																columnsM : 1,
+																singleContainerFullSize : false,
+																content : [
+																		new sap.m.Label(
+																				{
+																					text : bundle
+																							.getText("year_start")
+																				}),
+																		new sap.m.StepInput(
+																				{
+																					id: "startDate-" + edu.Id,
+																					required : true,
+																					value : edu.YearStart,
+																					min : 1920,
+																					max : 2099,
+																					step : 1,
+																					change : function(oEvent) {
+																						self
+																								.onChangeYearStart(oEvent)
+																					}
+																				}),
+																		new sap.m.Label(
+																				{
+																					text : bundle
+																							.getText("year_end")
+																				}),
+																		new sap.m.StepInput(
+																				{
+																					id: "endDate-" + edu.Id,
+																					value : edu.YearEnd,
+																					min : 1920,
+																					max : 2099,
+																					step : 1,
+																					change : function(oEvent) {
+																						self
+																								.onChangeYearEnd(oEvent)
+																					}
+																				}),
+																		new sap.m.Label(
+																				{
+																					text : bundle
+																							.getText("name_institution")
+																				}),
+																		new sap.m.Input(
+																				{
+																					id: "institution-" + edu.Id,
+																					maxLength : 300,
+																					value : edu.NameInstitution,
+																					required : true,
+																					liveChange : function(oEvent) {
+																						self
+																								.onChangeNameInstitution(oEvent)
+																					}
+																				}),
+																		new sap.m.Label(
+																				{
+																					text : bundle
+																							.getText("name_faculty")
+																				}),
+																		new sap.m.Input(
+																				{
+																					id: "faculty-" + edu.Id,
+																					maxLength : 300,
+																					value : edu.NameFaculty,
+																					required : true,
+																					liveChange : function(oEvent) {
+																						self
+																								.onChangeNameFaculty(oEvent)
+																					}
+																				}),
+																		new sap.m.Label(
+																				{
+																					text : bundle
+																							.getText("name_pulpit")
+																				}),
+																		new sap.m.Input(
+																				{
+																					id: "pulpit-" + edu.Id,
+																					maxLength : 300,
+																					value : edu.NamePulpit,
+																					required : true,
+																					liveChange : function(oEvent) {
+																						self
+																								.onChangeNamePulpit(oEvent)
+																					}
+																				})
+																		]
+															}).addStyleClass("formEducations")
+													]}));
+										},
+										
+										contentRemoveEducations : function(edu) { 
+											$('#elem-' + edu.Id).remove();
+											
+											var container = this.getView().byId("educationsContainer");
+											
+											container.removeFormElement("elem-" + edu.Id)
+										},
+
+										isCheckInput : function(id, data, isEdu) {
+
+											var el;
+											
+											if(isEdu)
+											{
+												var container = this.getView().byId("educationsContainer");
+
+												container.getFormElements().forEach(function(item, i) {
+													item.getFields().forEach(function(itemy, iy) {
+														itemy.getContent().forEach(function(itemz, iz) {
+															if(itemz.getParameter("id") === id)
+															{
+																el =  itemz;
+															}
+														});
+													});
+												});
+											}
+											else
+											{
+												el = this.getView().byId(id);
+											}
+											
 											var ret = false;
-
-											if (data === null
-													|| data === undefined
-													|| data === "") {
-												el
-														.setValueState(sap.ui.core.ValueState.Error);
-												ret = false;
-											} else {
-												el
-														.setValueState(sap.ui.core.ValueState.Accept);
-												ret = true
+											
+											if(el !== undefined && el !== null)
+											{
+												if (data === null
+														|| data === undefined
+														|| data === "") {
+													el
+															.setValueState(sap.ui.core.ValueState.Error);
+													ret = false;
+												} else {
+													el
+															.setValueState(sap.ui.core.ValueState.Accept);
+													ret = true
+												}
 											}
 
 											return ret;
 										},
 
 										isCheckData : function() {
+											var self = this;
 											var ret = true;
 											var data = this.getView()
 													.getModel().getData();
 
 											ret = this.isCheckInput("surname",
-													data.UserInfo.Surname);
+													data.UserInfo.Surname, false);
 
 											ret = this.isCheckInput("name",
-													data.UserInfo.Name);
+													data.UserInfo.Name, false);
 
 											ret = this.isCheckInput(
 													"date_of_birth",
-													data.UserInfo.DateOfBirth);
+													data.UserInfo.DateOfBirth, false);
 
 											var typeDoc = data.UserInfo.SelectDocKey;
 
 											if (typeDoc === "1") {
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"serialPas",
-																data.UserInfo.SerialPas);
+																data.UserInfo.SerialPas, false);
 
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"numberPas",
-																data.UserInfo.NumberPas);
+																data.UserInfo.NumberPas, false);
 
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"issuedByPas",
-																data.UserInfo.IssuedByPas);
+																data.UserInfo.IssuedByPas, false);
 
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"dateOfIssuePas",
-																data.UserInfo.DateOfIssuePas);
+																data.UserInfo.DateOfIssuePas, false);
 
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"unitCodePas",
-																data.UserInfo.UnitCodePas);
+																data.UserInfo.UnitCodePas, false);
 											} else if (typeDoc === "2") {
-												ret = this
-														.isCheckInput(
+												ret = self.isCheckInput(
 																"snilsNumberPas",
-																data.UserInfo.SnilsNumberPas);
+																data.UserInfo.SnilsNumberPas, false);
 											}
 
 											data.Educations.forEach(function(
 													item, i) {
-												ret = this.isCheckInput(
+												ret = self.isCheckInput(
 														"startDate-" + item.Id,
-														item.YearStart);
+														item.YearStart, true);
 
-												ret = this.isCheckInput(
+												ret = self.isCheckInput(
 														"endDate-" + item.Id,
-														item.YearEnd);
+														item.YearEnd, true);
 
-												ret = this.isCheckInput(
+												ret = self.isCheckInput(
 														"institution-"
 																+ item.Id,
-														item.NameInstitution);
+														item.NameInstitution, true);
 
-												ret = this.isCheckInput(
+												ret = self.isCheckInput(
 														"faculty-" + item.Id,
-														item.NameFaculty);
+														item.NameFaculty, true);
 
-												ret = this.isCheckInput(
+												ret = self.isCheckInput(
 														"pulpit-" + item.Id,
-														item.NamePulpit);
+														item.NamePulpit, true);
 											})
 
 											return ret;
@@ -572,6 +725,140 @@ sap.ui
 															"/UserInfo/SnilsNumberPas",
 															oEvent.getSource()
 																	.getValue());
+										},
+										
+										onChangeYearStart: function(oEvent) {
+											var idSt = oEvent.getParameter("id");
+											var r = /\d+/;
+											var id = Number(idSt.match(r));
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											educations.forEach(function(item, i) {
+												if(educations[i].Id == id)
+												{
+													educations[i].YearStart = oEvent.getSource().getValue();
+												}
+											});
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+										},
+										
+										onChangeYearEnd: function(oEvent) {
+											var idSt = oEvent.getParameter("id");
+											var r = /\d+/;
+											var id = Number(idSt.match(r));
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											educations.forEach(function(item, i) {
+												if(educations[i].Id == id)
+												{
+													educations[i].YearEnd = oEvent.getSource().getValue();
+												}
+											});
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+										},
+										
+										onChangeNameInstitution: function(oEvent) {
+											var idSt = oEvent.getParameter("id");
+											var r = /\d+/;
+											var id = Number(idSt.match(r));
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											educations.forEach(function(item, i) {
+												if(educations[i].Id == id)
+												{
+													educations[i].NameInstitution = oEvent.getSource().getValue();
+												}
+											});
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+										},
+										
+										onChangeNameFaculty: function(oEvent) {
+											var idSt = oEvent.getParameter("id");
+											var r = /\d+/;
+											var id = Number(idSt.match(r));
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											educations.forEach(function(item, i) {
+												if(educations[i].Id == id)
+												{
+													educations[i].NameFaculty = oEvent.getSource().getValue();
+												}
+											});
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+										},
+										
+										onChangeNamePulpit: function(oEvent) {
+											var idSt = oEvent.getParameter("id");
+											var r = /\d+/;
+											var id = Number(idSt.match(r));
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											educations.forEach(function(item, i) {
+												if(educations[i].Id == id)
+												{
+													educations[i].NamePulpit = oEvent.getSource().getValue();
+												}
+											});
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+										},
+										
+										onAddEdu: function(oEvent) {
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											if(educations.length !== 0 && educations !== undefined && educations !== null)
+											{
+												var min = Number(educations[0].Id);
+												var max = min;
+												for (var i = 1; i < educations.length; ++i) {
+												    if (Number(educations[i].Id) > max) max = Number(educations[i].Id);
+												    if (Number(educations[i].Id) < min) min = Number(educations[i].Id);
+												};
+												
+												max = max + 1;
+											}
+											else
+											{
+												max = 0;
+											}
+											
+											var education = {};
+											education.Id = max.toString();
+											education.YearStart = "",
+											education.YearEnd = "",
+											education.NameInstitution = "",
+											education.NameFaculty = "",
+											education.NamePulpit = ""
+												
+											educations.push(education);
+											
+											this.getView().getModel().setProperty("/Educations", educations);
+											
+											this.contentEducations();
+										},
+										
+										onRemoveEdu: function(oEvent) {
+											
+											var educations = this.getView().getModel().getProperty("/Educations");
+											
+											if(educations.length !== 0 && educations !== undefined && educations !== null)
+											{
+												var remEdu = educations.pop();
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+												
+												this.contentEducations();
+											}
 										},
 
 									/**

@@ -88,3 +88,17 @@
 		padding: 0 25px 0 10px;
 	}
 }
+
+.formEducations:hover {
+	background-color: #ddeff1;
+    border-top-color: #8f8fb1;
+    border-top-width: 2px;
+    border-top-style: double;
+}
+
+.formEducations {
+	padding-top: 10px;
+    border-top-color: #8f8fb1;
+    border-top-width: 2px;
+    border-top-style: double;
+}
