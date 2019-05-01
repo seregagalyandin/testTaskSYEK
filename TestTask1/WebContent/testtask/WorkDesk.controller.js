@@ -115,185 +115,15 @@ sap.ui
 													&& !editModel.idDisplay) {
 												data.Educations.forEach(function(item, i) {
 															container.addFormElement(
-																	new sap.ui.layout.form.FormElement({
-																		id: "elem-" + item.Id,
-																		fields: [
-																			new sap.ui.layout.form.SimpleForm(
-																			{
-																				editable : false,
-																				layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-																				labelSpanXL : 12,
-																				labelSpanL : 12,
-																				labelSpanM : 12,
-																				labelSpanS : 12,
-																				adjustLabelSpan : false,
-																				emptySpanXL : 0,
-																				emptySpanL : 0,
-																				emptySpanM : 0,
-																				emptySpanS : 0,
-																				columnsXL : 1,
-																				columnsL : 1,
-																				columnsM : 1,
-																				singleContainerFullSize : false,
-																				content : [
-																						new sap.m.Label(
-																								{
-																									text : bundle
-																											.getText("year_start")
-																								}),
-																						new sap.m.StepInput(
-																								{
-																									id: "startDate-" + item.Id,
-																									required : true,
-																									value : item.YearStart,
-																									min : 1920,
-																									max : 2099,
-																									step : 1,
-																									change : function(oEvent) {
-																										self
-																												.onChangeYearStart(oEvent)
-																									}
-																								}),
-																						new sap.m.Label(
-																								{
-																									text : bundle
-																											.getText("year_end")
-																								}),
-																						new sap.m.StepInput(
-																								{
-																									id: "endDate-" + item.Id,
-																									value : item.YearEnd,
-																									min : 1920,
-																									max : 2099,
-																									step : 1,
-																									change : function(oEvent) {
-																										self
-																												.onChangeYearEnd(oEvent)
-																									}
-																								}),
-																						new sap.m.Label(
-																								{
-																									text : bundle
-																											.getText("name_institution")
-																								}),
-																						new sap.m.Input(
-																								{
-																									id: "institution-" + item.Id,
-																									maxLength : 300,
-																									value : item.NameInstitution,
-																									required : true,
-																									liveChange : function(oEvent) {
-																										self
-																												.onChangeNameInstitution(oEvent)
-																									}
-																								}),
-																						new sap.m.Label(
-																								{
-																									text : bundle
-																											.getText("name_faculty")
-																								}),
-																						new sap.m.Input(
-																								{
-																									id: "faculty-" + item.Id,
-																									maxLength : 300,
-																									value : item.NameFaculty,
-																									required : true,
-																									liveChange : function(oEvent) {
-																										self
-																												.onChangeNameFaculty(oEvent)
-																									}
-																								}),
-																						new sap.m.Label(
-																								{
-																									text : bundle
-																											.getText("name_pulpit")
-																								}),
-																						new sap.m.Input(
-																								{
-																									id: "pulpit-" + item.Id,
-																									maxLength : 300,
-																									value : item.NamePulpit,
-																									required : true,
-																									liveChange : function(oEvent) {
-																										self
-																												.onChangeNamePulpit(oEvent)
-																									}
-																								})
-																						]
-																			}).addStyleClass("formEducations")
-																	]}));
+																	self.addFormElementEd(item, self)
+															);
 														});
 											} else if (!editModel.isEdit
 													&& editModel.isDisplay) {
 												data.Educations.forEach(function(item, i) {
 													container.addFormElement(
-															new sap.ui.layout.form.FormElement({
-																id: "elem-" + item.Id,
-																fields: [
-																	new sap.ui.layout.form.SimpleForm(
-																	{
-																		editable : false,
-																		layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-																		labelSpanXL : 12,
-																		labelSpanL : 12,
-																		labelSpanM : 12,
-																		labelSpanS : 12,
-																		adjustLabelSpan : false,
-																		emptySpanXL : 0,
-																		emptySpanL : 0,
-																		emptySpanM : 0,
-																		emptySpanS : 0,
-																		columnsXL : 1,
-																		columnsL : 1,
-																		columnsM : 1,
-																		singleContainerFullSize : false,
-																		content : [
-																				new sap.m.Label(
-																						{
-																							text : bundle
-																									.getText("year_start")
-																						}),
-																				new sap.m.Text(
-																						{
-																							text : item.YearStart
-																						}),
-																				new sap.m.Label(
-																						{
-																							text : bundle
-																									.getText("year_end")
-																						}),
-																				new sap.m.Text(
-																						{
-																							text : item.YearEnd
-																						}),
-																				new sap.m.Label(
-																						{
-																							text : bundle
-																									.getText("name_institution")
-																						}),
-																				new sap.m.Text(
-																						{
-																							text : item.NameInstitution
-																						}),
-																				new sap.m.Label(
-																						{
-																							text : bundle
-																									.getText("name_faculty")
-																						}),
-																				new sap.m.Text(
-																						{
-																							text : item.NameFaculty
-																						}),
-																				new sap.m.Label(
-																						{
-																							text : bundle
-																									.getText("name_pulpit")
-																						}),
-																				new sap.m.Text(
-																						{
-																							text : item.NamePulpit
-																						}) ]
-																	}).addStyleClass("formEducations")]}));
+															self.addFormElementDi(item, self)
+															);
 												});
 											}
 										},
@@ -309,113 +139,191 @@ sap.ui
 													.getResourceBundle();
 											
 											container.addFormElement(
-													new sap.ui.layout.form.FormElement({
-														id: "elem-" + edu.Id,
-														fields: [
-															new sap.ui.layout.form.SimpleForm(
-															{
-																editable : false,
-																layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
-																labelSpanXL : 12,
-																labelSpanL : 12,
-																labelSpanM : 12,
-																labelSpanS : 12,
-																adjustLabelSpan : false,
-																emptySpanXL : 0,
-																emptySpanL : 0,
-																emptySpanM : 0,
-																emptySpanS : 0,
-																columnsXL : 1,
-																columnsL : 1,
-																columnsM : 1,
-																singleContainerFullSize : false,
-																content : [
-																		new sap.m.Label(
-																				{
-																					text : bundle
-																							.getText("year_start")
-																				}),
-																		new sap.m.StepInput(
-																				{
-																					id: "startDate-" + edu.Id,
-																					required : true,
-																					value : edu.YearStart,
-																					min : 1920,
-																					max : 2099,
-																					step : 1,
-																					change : function(oEvent) {
-																						self
-																								.onChangeYearStart(oEvent)
-																					}
-																				}),
-																		new sap.m.Label(
-																				{
-																					text : bundle
-																							.getText("year_end")
-																				}),
-																		new sap.m.StepInput(
-																				{
-																					id: "endDate-" + edu.Id,
-																					value : edu.YearEnd,
-																					min : 1920,
-																					max : 2099,
-																					step : 1,
-																					change : function(oEvent) {
-																						self
-																								.onChangeYearEnd(oEvent)
-																					}
-																				}),
-																		new sap.m.Label(
-																				{
-																					text : bundle
-																							.getText("name_institution")
-																				}),
-																		new sap.m.Input(
-																				{
-																					id: "institution-" + edu.Id,
-																					maxLength : 300,
-																					value : edu.NameInstitution,
-																					required : true,
-																					liveChange : function(oEvent) {
-																						self
-																								.onChangeNameInstitution(oEvent)
-																					}
-																				}),
-																		new sap.m.Label(
-																				{
-																					text : bundle
-																							.getText("name_faculty")
-																				}),
-																		new sap.m.Input(
-																				{
-																					id: "faculty-" + edu.Id,
-																					maxLength : 300,
-																					value : edu.NameFaculty,
-																					required : true,
-																					liveChange : function(oEvent) {
-																						self
-																								.onChangeNameFaculty(oEvent)
-																					}
-																				}),
-																		new sap.m.Label(
-																				{
-																					text : bundle
-																							.getText("name_pulpit")
-																				}),
-																		new sap.m.Input(
-																				{
-																					id: "pulpit-" + edu.Id,
-																					maxLength : 300,
-																					value : edu.NamePulpit,
-																					required : true,
-																					liveChange : function(oEvent) {
-																						self
-																								.onChangeNamePulpit(oEvent)
-																					}
-																				})
-																		]
-															}).addStyleClass("formEducations")
-													]}));
+													self.addFormElementEd(edu, self)
+											);
+										},
+										
+										addFormElementEd: function(data, self) {
+											return new sap.ui.layout.form.FormElement({
+												id: "elem-" + data.Id,
+												fields: [
+													new sap.ui.layout.form.SimpleForm(
+													{
+														editable : false,
+														layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+														labelSpanXL : 12,
+														labelSpanL : 12,
+														labelSpanM : 12,
+														labelSpanS : 12,
+														adjustLabelSpan : false,
+														emptySpanXL : 0,
+														emptySpanL : 0,
+														emptySpanM : 0,
+														emptySpanS : 0,
+														columnsXL : 1,
+														columnsL : 1,
+														columnsM : 1,
+														singleContainerFullSize : false,
+														content : [
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("year_start")
+																		}),
+																new sap.m.StepInput(
+																		{
+																			id: "startDate-" + data.Id,
+																			required : true,
+																			value : data.YearStart,
+																			min : 1920,
+																			max : 2099,
+																			step : 1,
+																			change : function(oEvent) {
+																				self
+																						.onChangeYearStart(oEvent)
+																			}
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("year_end")
+																		}),
+																new sap.m.StepInput(
+																		{
+																			id: "endDate-" + data.Id,
+																			value : data.YearEnd,
+																			min : 1920,
+																			max : 2099,
+																			step : 1,
+																			change : function(oEvent) {
+																				self
+																						.onChangeYearEnd(oEvent)
+																			}
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_institution")
+																		}),
+																new sap.m.Input(
+																		{
+																			id: "institution-" + data.Id,
+																			maxLength : 300,
+																			value : data.NameInstitution,
+																			required : true,
+																			liveChange : function(oEvent) {
+																				self
+																						.onChangeNameInstitution(oEvent)
+																			}
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_faculty")
+																		}),
+																new sap.m.Input(
+																		{
+																			id: "faculty-" + data.Id,
+																			maxLength : 300,
+																			value : data.NameFaculty,
+																			required : true,
+																			liveChange : function(oEvent) {
+																				self
+																						.onChangeNameFaculty(oEvent)
+																			}
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_pulpit")
+																		}),
+																new sap.m.Input(
+																		{
+																			id: "pulpit-" + data.Id,
+																			maxLength : 300,
+																			value : data.NamePulpit,
+																			required : true,
+																			liveChange : function(oEvent) {
+																				self
+																						.onChangeNamePulpit(oEvent)
+																			}
+																		})
+																]
+													}).addStyleClass("formEducations")
+											]});
+										},
+										
+										addFormElementDi: function(data, self) {
+											return new sap.ui.layout.form.FormElement({
+												id: "elem-" + data.Id,
+												fields: [
+													new sap.ui.layout.form.SimpleForm(
+													{
+														editable : false,
+														layout : sap.ui.layout.form.SimpleFormLayout.ResponsiveGridLayout,
+														labelSpanXL : 4,
+														labelSpanL : 4,
+														labelSpanM : 4,
+														labelSpanS : 4,
+														adjustLabelSpan : false,
+														emptySpanXL : 0,
+														emptySpanL : 0,
+														emptySpanM : 0,
+														emptySpanS : 0,
+														columnsXL : 1,
+														columnsL : 1,
+														columnsM : 1,
+														singleContainerFullSize : false,
+														content : [
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("year_start")
+																		}),
+																new sap.m.Text(
+																		{
+																			text : data.YearStart
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("year_end")
+																		}),
+																new sap.m.Text(
+																		{
+																			text : data.YearEnd
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_institution")
+																		}),
+																new sap.m.Text(
+																		{
+																			text : data.NameInstitution
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_faculty")
+																		}),
+																new sap.m.Text(
+																		{
+																			text : data.NameFaculty
+																		}),
+																new sap.m.Label(
+																		{
+																			text : bundle
+																					.getText("name_pulpit")
+																		}),
+																new sap.m.Text(
+																		{
+																			text : data.NamePulpit
+																		}) ]
+													}).addStyleClass("formEducations")
+													]
+												}
+											);
 										},
 										
 										contentRemoveEducations : function(edu) { 
@@ -437,9 +345,13 @@ sap.ui
 												container.getFormElements().forEach(function(item, i) {
 													item.getFields().forEach(function(itemy, iy) {
 														itemy.getContent().forEach(function(itemz, iz) {
-															if(itemz.getParameter("id") === id)
+															var idz = itemz.getId();
+															if(idz !== undefined && idz !== null && idz !== "")
 															{
-																el =  itemz;
+																if(idz === id)
+																{
+																	el =  itemz;
+																}
 															}
 														});
 													});
@@ -468,6 +380,74 @@ sap.ui
 											}
 
 											return ret;
+										},
+										
+										isValidLive: function(el, data, type) {
+											switch (type) {
+
+											case "name":
+												
+												break;
+											case "date":
+												
+												break;
+											case "serial_pas":
+												
+												break;
+											case "number_pas":
+												
+												break;
+											case "issued_by_pas":
+												
+												break;
+											case "unit_code_pas":
+												
+												break;
+											case "snils_number_pas":
+
+												break;	
+											case "year":
+
+												break;
+											case "name_edu":
+
+												break;
+												
+											}
+										},
+										
+										isValid: function(el, data, type) {
+											switch (type) {
+
+											case "name":
+												
+												break;
+											case "date":
+												
+												break;
+											case "serial_pas":
+												
+												break;
+											case "number_pas":
+												
+												break;
+											case "issued_by_pas":
+												
+												break;
+											case "unit_code_pas":
+												
+												break;
+											case "snils_number_pas":
+
+												break;	
+											case "year":
+
+												break;
+											case "name_edu":
+
+												break;
+												
+											}
 										},
 
 										isCheckData : function() {
@@ -551,6 +531,26 @@ sap.ui
 												this.getView().getModel(
 														"editModel").setData(
 														editModel);
+												
+												var form = this.getView().byId("formUserInfo");
+												
+												form.setLayout(
+														new sap.ui.layout.form.ResponsiveGridLayout({
+															labelSpanXL: 4,
+															labelSpanL: 4,
+															labelSpanM: 4,
+															labelSpanS: 4,
+															adjustLabelSpan: false,
+															emptySpanXL: 0,
+															emptySpanL: 0,
+															emptySpanM: 0,
+															emptySpanS: 0,
+															columnsXL: 1,
+															columnsL: 1,
+															columnsM: 1,
+															singleContainerFullSize: false
+														})
+												);
 												
 												this.contentEducations();
 											}
