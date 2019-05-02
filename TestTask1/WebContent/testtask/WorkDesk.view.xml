@@ -142,12 +142,12 @@
 								<f:fields>
 									<m:Text text="{/UserInfo/SerialPas}" id="serialPasText">
 										<m:layoutData>
-											<layout:GridData span="XL4 L4 M4 S4" />
+											<layout:GridData span="XL2 L2 M2 S2" />
 										</m:layoutData>
 									</m:Text>
 									<m:Text text="{/UserInfo/NumberPas}" id="numberPasText">
 										<m:layoutData>
-											<layout:GridData span="XL8 L8 M8 S8" />
+											<layout:GridData span="XL6 L6 M6 S6" />
 										</m:layoutData>
 									</m:Text>
 								</f:fields>
@@ -244,12 +244,12 @@
 		</m:content>
 		<m:footer>
 			<m:Toolbar class="mainFootter">
-				<m:Button width="120px" icon="sap-icon://delete" text="{i18n>remove}"
-					type="Emphasized" press="onRemoveEdu" />
-				<m:Button width="120px" icon="sap-icon://create" text="{i18n>add}"
-					type="Emphasized" press="onAddEdu" />
+				<m:Button id="rem_edu" icon="sap-icon://delete" text="{i18n>remove}"
+					type="Emphasized" press="onRemoveEdu" class="button-edu" />
+				<m:Button id="add_edu" icon="sap-icon://create" text="{i18n>add}"
+					type="Emphasized" press="onAddEdu" class="button-edu" />
 				<m:ToolbarSpacer />
-				<m:Button icon="sap-icon://save" text="{i18n>save}"
+				<m:Button id="save" icon="sap-icon://save" text="{i18n>save}"
 					type="Accept" press="onSave" />
 			</m:Toolbar>
 		</m:footer>

@@ -79,7 +79,7 @@ sap.ui
 												} ],
 												Educations : [ {
 													Id : "0000",
-													YearStart : "",
+													YearStart : "2019",
 													YearEnd : "",
 													NameInstitution : "",
 													NameFaculty : "",
@@ -108,21 +108,20 @@ sap.ui
 													.getModel("i18n")
 													.getResourceBundle();
 
-											//container.removeAllFormElements();
 											container.destroyFormElements();
 
 											if (editModel.isEdit
 													&& !editModel.idDisplay) {
 												data.Educations.forEach(function(item, i) {
 															container.addFormElement(
-																	self.addFormElementEd(item, self)
+																	self.addFormElementEd(item, self, bundle)
 															);
 														});
 											} else if (!editModel.isEdit
 													&& editModel.isDisplay) {
 												data.Educations.forEach(function(item, i) {
 													container.addFormElement(
-															self.addFormElementDi(item, self)
+															self.addFormElementDi(item, self, bundle)
 															);
 												});
 											}
@@ -139,13 +138,13 @@ sap.ui
 													.getResourceBundle();
 											
 											container.addFormElement(
-													self.addFormElementEd(edu, self)
+													self.addFormElementEd(edu, self, bundle)
 											);
 										},
 										
-										addFormElementEd: function(data, self) {
+										addFormElementEd: function(data, self, bundle) {
 											return new sap.ui.layout.form.FormElement({
-												id: "elem-" + data.Id,
+												id: "elem-" + data.Id + "-edit",
 												fields: [
 													new sap.ui.layout.form.SimpleForm(
 													{
@@ -253,9 +252,9 @@ sap.ui
 											]});
 										},
 										
-										addFormElementDi: function(data, self) {
+										addFormElementDi: function(data, self, bundle) {
 											return new sap.ui.layout.form.FormElement({
-												id: "elem-" + data.Id,
+												id: "elem-" + data.Id + "-display",
 												fields: [
 													new sap.ui.layout.form.SimpleForm(
 													{
@@ -327,15 +326,17 @@ sap.ui
 										},
 										
 										contentRemoveEducations : function(edu) { 
-											$('#elem-' + edu.Id).remove();
+											$('#elem-' + edu.Id + "-edit").remove();
 											
 											var container = this.getView().byId("educationsContainer");
 											
-											container.removeFormElement("elem-" + edu.Id)
+											container.removeFormElement("elem-" + edu.Id + "-edit")
 										},
 
-										isCheckInput : function(id, data, isEdu) {
+										isCheckInput : function(id, name, data, isEdu, isLive) {
 
+											var self = this;
+											
 											var el;
 											
 											if(isEdu)
@@ -366,16 +367,21 @@ sap.ui
 											
 											if(el !== undefined && el !== null)
 											{
-												if (data === null
-														|| data === undefined
-														|| data === "") {
-													el
-															.setValueState(sap.ui.core.ValueState.Error);
-													ret = false;
-												} else {
-													el
-															.setValueState(sap.ui.core.ValueState.Accept);
-													ret = true
+												if(isLive)
+												{
+													ret = self.isValidLive(el, data, name)
+												}
+												else
+												{
+													if (data === null
+															|| data === undefined
+															|| data === "") {
+														el.setValueState(sap.ui.core.ValueState.Error);
+												    	el.setValueStateText("Обязательное бля ввода поле!");
+														ret = false;
+													} else {
+														ret = self.isValid(el, data, name)
+													}
 												}
 											}
 
@@ -383,71 +389,252 @@ sap.ui
 										},
 										
 										isValidLive: function(el, data, type) {
+											
+											var ret = true;
+											
 											switch (type) {
 
 											case "name":
 												
+												var pattern = /^[а-яеёА-ЯЕЁ-]{0,30}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только кириллические символы без пробелов!");
+											    	ret = false;
+											    }
+												
 												break;
 											case "date":
+												
+												var pattern = /^[0-9.]{0,11}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите дату в формате дд.мм.гггг!");
+											    	ret = false;
+											    }
 												
 												break;
 											case "serial_pas":
 												
+												var pattern = /^[0-9]{0,4}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
+												
 												break;
 											case "number_pas":
 												
-												break;
-											case "issued_by_pas":
+												var pattern = /^[0-9]{0,6}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
 												
 												break;
 											case "unit_code_pas":
 												
+												var pattern = /^[-0-9]{0,7}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
+												
 												break;
 											case "snils_number_pas":
 
+												var pattern = /^[-0-9 ]{0,14}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText('Вводите только числа!');
+											    	ret = false;
+											    }
+												
 												break;	
 											case "year":
 
+												var pattern = /^[0-9]{0,4}$/;
+											    if(pattern.test(data.toString()) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
+												
 												break;
 											case "name_edu":
 
+												var pattern = /^[a-zA-Zа-яеёА-ЯЕЁ-]{0,250}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText('Вводите только буквы на латинице, киррилице и символ "-"!');
+											    	ret = false;
+											    }
+												
 												break;
 												
 											}
+											
+											return ret;
 										},
 										
 										isValid: function(el, data, type) {
+											
+											var ret = true;
+											
 											switch (type) {
 
 											case "name":
 												
+												var pattern = /^[а-яеёА-ЯЕЁ-]{0,30}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только кириллические символы!");
+											    	ret = false;
+											    }
+												
 												break;
 											case "date":
 												
+												var pattern = /^([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите дату в формате дд.мм.гггг!");
+											    	ret = false;
+											    }
+											    
 												break;
 											case "serial_pas":
+												
+												var pattern = /^[0-9]{4,4}$/;
+											    if(pattern.test(data) == true && data.length === 4)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
 												
 												break;
 											case "number_pas":
 												
-												break;
-											case "issued_by_pas":
+												var pattern = /^[0-9]{6,6}$/;
+											    if(pattern.test(data) == true && data.length === 6)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
 												
 												break;
 											case "unit_code_pas":
 												
+												var pattern = /^\d{3}-\d{3}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
+							
 												break;
 											case "snils_number_pas":
-
+												
+												var pattern = /^\d{3}-\d{3}-\d{3} \d{2}$/;
+											    if(pattern.test(data) == true)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только числа!");
+											    	ret = false;
+											    }
+												
 												break;	
 											case "year":
-
-												break;
-											case "name_edu":
+												
+												var pattern = /^[0-9]{4,4}$/;
+											    if(pattern.test(data.toString()) == true && data.toString().length === 4)
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Accept);
+											    }
+											    else
+											    {
+											    	el.setValueState(sap.ui.core.ValueState.Error);
+											    	el.setValueStateText("Вводите только чиста!");
+											    	ret = false;
+											    }
 
 												break;
 												
-											}
+											};
+											
+											return ret;
 										},
 
 										isCheckData : function() {
@@ -456,66 +643,136 @@ sap.ui
 											var data = this.getView()
 													.getModel().getData();
 
-											ret = this.isCheckInput("surname",
-													data.UserInfo.Surname, false);
+											var lret = this.isCheckInput("surname", "name",
+													data.UserInfo.Surname, false, false);
+											
+											if(!lret)
+											{
+												ret = lret;
+											}
 
-											ret = this.isCheckInput("name",
-													data.UserInfo.Name, false);
+											lret = this.isCheckInput("name", "name",
+													data.UserInfo.Name, false, false);
+											
+											if(!lret)
+											{
+												ret = lret;
+											}
 
-											ret = this.isCheckInput(
-													"date_of_birth",
-													data.UserInfo.DateOfBirth, false);
+											lret = this.isCheckInput(
+													"date_of_birth", "date",
+													data.UserInfo.DateOfBirth, false, false);
+											
+											if(!lret)
+											{
+												ret = lret;
+											}
 
 											var typeDoc = data.UserInfo.SelectDocKey;
 
 											if (typeDoc === "1") {
-												ret = self.isCheckInput(
-																"serialPas",
-																data.UserInfo.SerialPas, false);
+												lret = self.isCheckInput(
+																"serialPas", "serialPas",
+																data.UserInfo.SerialPas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-																"numberPas",
-																data.UserInfo.NumberPas, false);
+												lret = self.isCheckInput(
+																"numberPas", "numberPas",
+																data.UserInfo.NumberPas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-																"issuedByPas",
-																data.UserInfo.IssuedByPas, false);
+												lret = self.isCheckInput(
+																"issuedByPas", "issuedByPas",
+																data.UserInfo.IssuedByPas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-																"dateOfIssuePas",
-																data.UserInfo.DateOfIssuePas, false);
+												lret = self.isCheckInput(
+																"dateOfIssuePas", "date",
+																data.UserInfo.DateOfIssuePas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-																"unitCodePas",
-																data.UserInfo.UnitCodePas, false);
+												lret = self.isCheckInput(
+																"unitCodePas", "unit_code_pas",
+																data.UserInfo.UnitCodePas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 											} else if (typeDoc === "2") {
-												ret = self.isCheckInput(
-																"snilsNumberPas",
-																data.UserInfo.SnilsNumberPas, false);
+												lret = self.isCheckInput(
+																"snilsNumberPas", "snils_number_pas",
+																data.UserInfo.SnilsNumberPas, false, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 											}
 
 											data.Educations.forEach(function(
 													item, i) {
-												ret = self.isCheckInput(
-														"startDate-" + item.Id,
-														item.YearStart, true);
+												lret = self.isCheckInput(
+														"startDate-" + item.Id, "year",
+														item.YearStart, true, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-														"endDate-" + item.Id,
-														item.YearEnd, true);
+												lret = self.isCheckInput(
+														"endDate-" + item.Id, "year",
+														item.YearEnd, true, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
+												lret = self.isCheckInput(
 														"institution-"
-																+ item.Id,
-														item.NameInstitution, true);
+																+ item.Id, "name_edu",
+														item.NameInstitution, true, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-														"faculty-" + item.Id,
-														item.NameFaculty, true);
+												lret = self.isCheckInput(
+														"faculty-" + item.Id, "name_edu",
+														item.NameFaculty, true, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 
-												ret = self.isCheckInput(
-														"pulpit-" + item.Id,
-														item.NamePulpit, true);
+												lret = self.isCheckInput(
+														"pulpit-" + item.Id, "name_edu",
+														item.NamePulpit, true, false);
+												
+												if(!lret)
+												{
+													ret = lret;
+												}
 											})
 
 											return ret;
@@ -533,6 +790,8 @@ sap.ui
 														editModel);
 												
 												var form = this.getView().byId("formUserInfo");
+												
+												form.destroyLayout();
 												
 												form.setLayout(
 														new sap.ui.layout.form.ResponsiveGridLayout({
@@ -552,76 +811,170 @@ sap.ui
 														})
 												);
 												
+												this.generToolBar();
+												
 												this.contentEducations();
+												
+												sap.ui.getCore().setModel(this.getView().getModel("userModel"));
+											}
+										},
+										
+										generToolBar: function() {
+											var self = this
+											
+											var page = sap.ui.getCore().byId(
+											"idAnalitic1").byId(
+											"MainPage");
+											
+											var editModel = this.getView()
+											.getModel("editModel")
+											.getData();
+											
+											var bundle = this.getView()
+											.getModel("i18n")
+											.getResourceBundle();
+											
+											page.destroyFooter();
+											
+											if(editModel.isEdit)
+											{
+												page
+												.setFooter(new sap.m.Bar(
+														{
+															contentRight : [
+																	new sap.m.Button(
+																			{
+																				id: "rem_edu",
+																				icon: "sap-icon://delete",
+																				text: bundle.getText("remove"),
+																				type : sap.m.ButtonType.Emphasized,
+																				press : function(self) {
+																					self.onRemoveEdu(self);
+																				}
+																			}),
+																	new sap.m.Button(
+																			{
+																				id: "add_edu",
+																				icon: "sap-icon://create",
+																				text: bundle.getText("add"),
+																				type : sap.m.ButtonType.Emphasized,
+																				press : function(self) {
+																					self.onAddEdu(self);
+																				}
+																			}),
+																	new sap.m.ToolbarSpacer({}),
+																	new sap.m.Button(
+																			{
+																				id: "save",
+																				icon: "sap-icon://save",
+																				text: bundle.getText("save"),
+																				type : sap.m.ButtonType.Accept,
+																				press : function(self) {
+																					self.onSave(self);
+																				}
+																			})
+																	]
+												}));
+											}
+											else if(editModel.isDisplay)
+											{
+												page
+												.setFooter(new sap.m.Bar(
+														{
+															contentRight : [ ]
+												}));
 											}
 										},
 
 										onChangeSurname : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/Surname",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+											
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "name", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/Surname", data);
+											}
+											
 										},
 
 										onChangeName : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/Name",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+											
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "name", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/Name", data)
+											};
 										},
 
 										onChangePatronymic : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/Patronymic",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+											
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "name", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/Patronymic", data);
+											};
+											
 										},
 
 										onDateOfBirth : function(oEvent) {
+											
+											var self = this;
+											
 											var value = oEvent.getSource()
 													.getValue();
-											var dateValue = oEvent.getSource()
-													.getDateValue();
-
-											var thisDate = new Date();
-
-											var year = dateValue.getFullYear();
-											var month = dateValue.getMonth();
-											var day = dateValue.getDate();
-
-											var thisYear = thisDate
-													.getFullYear();
-											var thisMonth = thisDate.getMonth();
-											var thisDay = thisDate.getDate();
-
-											var age = 0;
-
-											if (month <= thisMonth
-													&& day <= thisDay) {
-												age = thisYear - year;
-											} else {
-												age = (thisYear - year) - 1;
-											}
-
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/DateOfBirth",
-															value);
-											this.getView().getModel()
-													.setProperty(
-															"/UserInfo/Age",
-															age);
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "date", value, false, true);
+											if(isChange)
+											{
+												var dateValue = oEvent.getSource()
+														.getDateValue();
+	
+												var thisDate = new Date();
+	
+												var year = dateValue.getFullYear();
+												var month = dateValue.getMonth();
+												var day = dateValue.getDate();
+	
+												var thisYear = thisDate
+														.getFullYear();
+												var thisMonth = thisDate.getMonth();
+												var thisDay = thisDate.getDate();
+	
+												var age = 0;
+	
+												if ((month === thisMonth && day <= thisDay) || (month < thisMonth)) {
+													age = thisYear - year;
+												} else {
+													age = (thisYear - year) - 1;
+												}
+	
+												this
+														.getView()
+														.getModel()
+														.setProperty(
+																"/UserInfo/DateOfBirth",
+																value);
+												this.getView().getModel()
+														.setProperty(
+																"/UserInfo/Age",
+																age);
+											};
+											
 										},
 
 										onChangeSelDoc : function(oEvent) {
@@ -666,150 +1019,231 @@ sap.ui
 										},
 
 										onChangeSerialPas : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/SerialPas",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+											
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "serial_pas", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/SerialPas", data);
+											};
+											
 										},
 
 										onChangeNumberPas : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/NumberPas",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "number_pas", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/NumberPas", data);
+											};
+											
 										},
 
 										onChangeIssuedByPas : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/IssuedByPas",
-															oEvent.getSource()
-																	.getValue());
+
+											var data = oEvent.getSource().getValue();
+											
+											this.getView().getModel().setProperty("/UserInfo/IssuedByPas", data);
+											
 										},
 
-										onChangeDateOfIssuePas : function(
-												oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/DateOfIssuePas",
-															oEvent.getSource()
-																	.getValue());
+										onChangeDateOfIssuePas : function(oEvent) {
+
+											var data = oEvent.getSource().getValue();
+											
+											this.getView().getModel().setProperty("/UserInfo/DateOfIssuePas", data);
+											
 										},
 
 										onChangeUnitCodePas : function(oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/UnitCodePas",
-															oEvent.getSource()
-																	.getValue());
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "unit_code_pas", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/UnitCodePas", data);
+											};
 										},
 
-										onChangeSnilsNumberPas : function(
-												oEvent) {
-											this
-													.getView()
-													.getModel()
-													.setProperty(
-															"/UserInfo/SnilsNumberPas",
-															oEvent.getSource()
-																	.getValue());
+										onChangeSnilsNumberPas : function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
+											var id = oEvent.getParameter("id");
+											
+											var isChange = self.isCheckInput(id, "snils_number_pas", data, false, true);
+											if(isChange)
+											{
+												this.getView().getModel().setProperty("/UserInfo/SnilsNumberPas", data);
+											};
+											
 										},
 										
 										onChangeYearStart: function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
 											var idSt = oEvent.getParameter("id");
-											var r = /\d+/;
-											var id = Number(idSt.match(r));
 											
-											var educations = this.getView().getModel().getProperty("/Educations");
+											var isChange = self.isCheckInput(idSt, "year", data, true, true);
+											if(isChange)
+											{
+												var r = /\d+/;
+												var id = Number(idSt.match(r));
+												
+												var educations = this.getView().getModel().getProperty("/Educations");
+												
+												educations.forEach(function(item, i) {
+													if(educations[i].Id == id)
+													{
+														educations[i].YearStart = data;
+													}
+												});
+												
+												var container = this.getView().byId("educationsContainer");
+
+												container.getFormElements().forEach(function(item, i) {
+													item.getFields().forEach(function(itemy, iy) {
+														itemy.getContent().forEach(function(itemz, iz) {
+															var idz = itemz.getId();
+															if(idz !== undefined && idz !== null && idz !== "")
+															{
+																var ids = idz.split("-");
+																if(ids[0] === "endDate" && Number(ids[1]) === id)
+																{
+																	itemz.setMin(data);
+																}
+															}
+														});
+													});
+												});
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+											};
 											
-											educations.forEach(function(item, i) {
-												if(educations[i].Id == id)
-												{
-													educations[i].YearStart = oEvent.getSource().getValue();
-												}
-											});
-											
-											this.getView().getModel().setProperty("/Educations", educations);
 										},
 										
 										onChangeYearEnd: function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
 											var idSt = oEvent.getParameter("id");
-											var r = /\d+/;
-											var id = Number(idSt.match(r));
 											
-											var educations = this.getView().getModel().getProperty("/Educations");
+											var isChange = self.isCheckInput(idSt, "year", data, true, true);
+											if(isChange)
+											{
+												var r = /\d+/;
+												var id = Number(idSt.match(r));
+												
+												var educations = this.getView().getModel().getProperty("/Educations");
+												
+												educations.forEach(function(item, i) {
+													if(educations[i].Id == id)
+													{
+														educations[i].YearEnd = data;
+													}
+												});
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+											};
 											
-											educations.forEach(function(item, i) {
-												if(educations[i].Id == id)
-												{
-													educations[i].YearEnd = oEvent.getSource().getValue();
-												}
-											});
-											
-											this.getView().getModel().setProperty("/Educations", educations);
 										},
 										
 										onChangeNameInstitution: function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
 											var idSt = oEvent.getParameter("id");
-											var r = /\d+/;
-											var id = Number(idSt.match(r));
 											
-											var educations = this.getView().getModel().getProperty("/Educations");
+											var isChange = self.isCheckInput(idSt, "name_edu", data, true, true);
+											if(isChange)
+											{
+												var r = /\d+/;
+												var id = Number(idSt.match(r));
+												
+												var educations = this.getView().getModel().getProperty("/Educations");
+												
+												educations.forEach(function(item, i) {
+													if(educations[i].Id == id)
+													{
+														educations[i].NameInstitution = data;
+													}
+												});
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+											};
 											
-											educations.forEach(function(item, i) {
-												if(educations[i].Id == id)
-												{
-													educations[i].NameInstitution = oEvent.getSource().getValue();
-												}
-											});
-											
-											this.getView().getModel().setProperty("/Educations", educations);
 										},
 										
 										onChangeNameFaculty: function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
 											var idSt = oEvent.getParameter("id");
-											var r = /\d+/;
-											var id = Number(idSt.match(r));
 											
-											var educations = this.getView().getModel().getProperty("/Educations");
+											var isChange = self.isCheckInput(idSt, "name_edu", data, true, true);
+											if(isChange)
+											{
+												var r = /\d+/;
+												var id = Number(idSt.match(r));
+												
+												var educations = this.getView().getModel().getProperty("/Educations");
+												
+												educations.forEach(function(item, i) {
+													if(educations[i].Id == id)
+													{
+														educations[i].NameFaculty = data;
+													}
+												});
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+											};
 											
-											educations.forEach(function(item, i) {
-												if(educations[i].Id == id)
-												{
-													educations[i].NameFaculty = oEvent.getSource().getValue();
-												}
-											});
-											
-											this.getView().getModel().setProperty("/Educations", educations);
 										},
 										
 										onChangeNamePulpit: function(oEvent) {
+											
+											var self = this;
+
+											var data = oEvent.getSource().getValue();
 											var idSt = oEvent.getParameter("id");
-											var r = /\d+/;
-											var id = Number(idSt.match(r));
 											
-											var educations = this.getView().getModel().getProperty("/Educations");
+											var isChange = self.isCheckInput(idSt, "name_edu", data, true, true);
+											if(isChange)
+											{
+												var r = /\d+/;
+												var id = Number(idSt.match(r));
+												
+												var educations = this.getView().getModel().getProperty("/Educations");
+												
+												educations.forEach(function(item, i) {
+													if(educations[i].Id == id)
+													{
+														educations[i].NamePulpit = data;
+													}
+												});
+												
+												this.getView().getModel().setProperty("/Educations", educations);
+											};
 											
-											educations.forEach(function(item, i) {
-												if(educations[i].Id == id)
-												{
-													educations[i].NamePulpit = oEvent.getSource().getValue();
-												}
-											});
-											
-											this.getView().getModel().setProperty("/Educations", educations);
 										},
 										
 										onAddEdu: function(oEvent) {
