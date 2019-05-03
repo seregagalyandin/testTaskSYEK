@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
-<title>Обращения</title>
+<title>Анкета</title>
 
-<script src="1/resources/sap-ui-cachebuster/sap-ui-core.js"
+<script src="https://sapui5.hana.ondemand.com/1.54.8/resources/sap-ui-cachebuster/sap-ui-core.js"
 	data-sap-ui-appCachebuster="./"
 	data-sap-ui-resourceroots='{ "sap.myApps" : "./" }'
 	id="sap-ui-bootstrap" data-sap-ui-libs="sap.m"
@@ -16,48 +16,23 @@
 <!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
 
 <script>
-	
-	var oModel= new sap.ui.model.json.JSONModel();					
-	oModel.loadData("/sap/bc/ui2/start_up",null,false);		//делаем запрос синхронным		
-	var sLogin = "";
-	
-	var busyDialogAdd = new sap.m.BusyDialog({
-		
-		text: "Загрузка данных...",
-		showCancelButton : false
-
+sap.ui.getCore().attachInit(function () {
+	sap.ui.require([
+		"sap/m/Shell",
+		"sap/ui/core/ComponentContainer"
+	], function (Shell, ComponentContainer) {
+		// initialize the UI component
+		new Shell({
+			app: new ComponentContainer({
+				height: "100%",
+				name: "sap.myApps",
+				settings: {
+					id: "myApps"
+				}
+			})
+		}).placeAt("content");
 	});
-	
-	var thisAppeal;
-	
-	sLogin  = oModel.getProperty("/id");
-	sUser   = oModel.getProperty("/fullName");
-	sSystem = oModel.getProperty("/system");
-								
-	jQuery.sap.require("jquery.sap.storage");
-	this.oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-	this.oStorage.put("ID", sLogin);
-	this.oStorage.put("IDName", sUser);
-	
-	
-	var app = new sap.m.App({
-		//id: "App"
-		initialPage : "idAnalitic1",
-	});
-	var page = sap.ui.view({
-		id : "idAnalitic1",
-		viewName : "sap.myApps.testtask.WorkDesk",
-		type : sap.ui.core.mvc.ViewType.XML
-	});
-	
-	app.addPage(page);
-	app.placeAt("content");
-	
-	sap.ui.getCore().attachInit(function () {
-        new sap.ui.core.ComponentContainer({
-        name : "sap.myApps"
-        }).placeAt("content");
-     });
+});
 
 </script>
 

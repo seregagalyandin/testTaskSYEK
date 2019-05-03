@@ -1,0 +1,85 @@
+<core:View xmlns:core="sap.ui.core" xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core" xmlns:m="sap.m" xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
+	xmlns:sample="sap.uxap.sample.SharedBlocks"
+	xmlns:goals="sap.uxap.sample.SharedBlocks.goals"
+	xmlns:calendar="sap.ui.unified.calendar"
+	xmlns:personal="sap.uxap.sample.SharedBlocks.personal"
+	xmlns:employment="sap.uxap.sample.SharedBlocks.employment"
+	xmlns:connections="sap.uxap.sample.SharedBlocks.connections"
+	xmlns:smartForm="sap.ui.comp.smartform" xmlns:f="sap.ui.layout.form"
+	controllerName="sap.myApps.controller.table"
+	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
+	<m:Page id="TablePage" showHeader="false"
+		enableScrolling="false" class="sapUiContentPadding">
+		<m:content>
+			<m:Table id="main_table_mob" inset="false" items="{path:'/MainInfo'}"
+				growing="true" growingThreshold="50">
+				<m:columns>
+					<m:Column>
+						<m:Text text="{i18n>namePar}" />
+					</m:Column>
+					<m:Column>
+						<m:Text text="{i18n>value}" />
+					</m:Column>
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem>
+						<m:cells>
+							<m:Text text="{NamePar}" />
+							<m:Text text="{Value}" />
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+			<m:Table id="doc_table_mob" inset="false" items="{path:'/DocInfo'}"
+				growing="true" growingThreshold="50">
+				<m:columns>
+					<m:Column>
+						<m:Text text="{i18n>namePar}" />
+					</m:Column>
+					<m:Column>
+						<m:Text text="{i18n>value}" />
+					</m:Column>
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem>
+						<m:cells>
+							<m:Text text="{NamePar}" />
+							<m:Text text="{Value}" />
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+			<m:Table id="edu_table_mob" inset="false" items="{path:'/EduInfo'}"
+				growing="true" growingThreshold="50">
+				<m:columns>
+					<m:Column>
+						<m:Text text="{i18n>namePar}" />
+					</m:Column>
+					<m:Column>
+						<m:Text text="{i18n>value}" />
+					</m:Column>
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem>
+						<m:cells>
+							<m:Text text="{NamePar}" />
+							<m:Text text="{Value}" />
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+		</m:content>
+		<m:footer>
+			<m:Toolbar>
+				<m:ToolbarSpacer />
+				<m:Button icon="sap-icon://create-form" text="{i18n>export_to_xlsx}"
+					type="Accept" press="onCreateAppeal" />
+				<m:Button icon="sap-icon://create-form" text="{i18n>export_to_pdf}"
+					type="Accept" press="onCreateAppeal" />
+			</m:Toolbar>
+		</m:footer>
+	</m:Page>
+</core:View>

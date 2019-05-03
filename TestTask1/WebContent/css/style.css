@@ -134,3 +134,13 @@
     border-top-width: 2px;
     border-top-style: double;
 }
+
+.app {
+	background: white;
+}
+
+.app > div > div > section {
+	/*padding-top: 0 !important;*/
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}

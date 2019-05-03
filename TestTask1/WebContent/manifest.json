@@ -1,106 +1,134 @@
 {
-	"_version": "1.1.0",
-	"sap.app": {
-		"_version": "1.1.0",
-		"id": "sap.myApps",
-		"type": "application",
-		"i18n": "i18n/i18n.properties"
-	},
-	"sap.ui": {
-		"_version": "1.1.0",
-		"technology": "UI5",
-		"icons": {
-			"favIcon": "Icon/favicon.ico"
-		},
-		"deviceTypes": {
-			"desktop": true,
-			"tablet": true,
-			"phone": false
-		},
+    "_version": "1.9.0",
+    "sap.app": {
+        "id": "sap.myApps",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "Анкета",
+        "description": "Заполнение анкеты",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/zgws_goods_issue_srv/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "sap.ui.ui5-template-plugin.1worklist",
+            "version": "1.52.7"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "fullWidth": true,
+        "icons": {
+            "icon": "sap-icon://task",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
 		"supportedThemes": [
 			"sap_hcb",
 			"sap_belize",
 			"sap_bluecrystal"
 		]
-	},
-	"sap.ui5": {
-		"_version": "1.1.0",
-		"models": {
-			"i18n": {
-				"type": "sap.ui.model.resource.ResourceModel",
-				"uri": "i18n/i18n.properties"
-			}
-		},
-		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
-		},
-		"routes": [
-			{
-				"pattern": "",
-				"name": "master",
-				"target": [
-					"master"
-				]
-			},
-			{
-				"pattern": "RequestSet/{objectId}",
-				"name": "object",
-				"target": [
-					"object"
-				]
-			}
-		],
-		"targets": {
-			"master": {
-				"viewName": "",
-				"viewLevel": 1,
-				"viewId": "master"
-			},
-			"object": {
-				"viewName": "Detail",
-				"viewId": "detail",
-				"viewLevel": 2
-			},
-			"minUI5Version": "1.38.1",
-			"libs": {
-				"sap.m": {
-					
-				},
-				"sap.me": {
-					
-				},
-				"sap.viz": {
-					
-				},
-				"sap.suite.ui.microchart": {
-					
-				},
-				"sap.ca.scfld.md": {
-					
-				},
-				"sap.ui.layout": {
-					
-				},
-				"sap.ui.table": {
-					
-				},
-				"sap.ui.commons": {
-					
-				}
-			},
-			"config": {
-				"sample": {
-					"files": [
-						"WorkDesk.view.xml",
-						"WorkDesk.controller.js",
-						"manifest.json"
-					]
-				}
-			}
-		}
-	}
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "sap.myApps.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.54.8",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "sap.myApps.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "sap.myApps.view",
+                "controlId": "idAnalitic1",
+                "controlAggregation": "pages",
+                "bypassed": {
+                    "target": [
+                        "notFound"
+                    ]
+                },
+                "async": true
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "main",
+                    "target": [
+                        "main"
+                    ]
+                },
+                {
+                    "pattern": "table",
+                    "name": "table",
+                    "target": [
+                        "table"
+                    ]
+                }
+            ],
+            "targets": {
+                "main": {
+                    "viewName": "WorkDesk",
+                    "viewLevel": 1,
+                    "viewId": "main"
+                },
+                "table": {
+                    "viewName": "Table",
+                    "viewId": "table",
+                    "viewLevel": 2
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/ztesttask1",
+        "_version": "1.1.0"
+    }
 }
