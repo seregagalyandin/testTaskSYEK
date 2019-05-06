@@ -37,7 +37,17 @@ sap.ui
 										 */
 										onInit : function() {
 
-											this.getRouter().getRoute("table").attachPatternMatched(this._onMasterMatched, this);
+											this.getRouter().getRoute("table").attachPatternMatched(this._onTableMatched, this);
+
+											this.getOwnerComponent().getModel().metadataLoaded().then(this._onMetadataLoaded.bind(this));
+											
+											var oTableMobModel = new JSONModel({
+												MainInfo : [ ],
+												DocInfo : [ ],
+												EduInfo : [ ]
+											});
+											
+											this.getView().setModel(oTableMobModel, "TableMob");
 											
 											var i18nModel = new ResourceModel(
 													{
@@ -51,13 +61,13 @@ sap.ui
 													.getModel("i18n")
 													.getResourceBundle();
 
-											var userModel = sap.ui.getCore()
-													.getModel().getData();
+											var oModel = sap.ui.getCore().getModel();
+											var userModel = oModel.getData();
 
-											var tableMobModel = {};
-											tableMobModel.MainInfo = [];
-											tableMobModel.DocInfo = [];
-											tableMobModel.EduInfo = [];
+
+											var oMainInfo = [];
+											var oDocInfo = [];
+											var oEduInfo = [];
 
 											if (userModel.UserInfo.Surname !== undefined
 													&& userModel.UserInfo.Surname !== null
@@ -67,7 +77,7 @@ sap.ui
 														.getText("surname");
 												surname.Value = userModel.UserInfo.Surname;
 
-												tableMobModel.MainInfo
+												oMainInfo
 														.push(surname);
 											}
 
@@ -79,7 +89,7 @@ sap.ui
 														.getText("name");
 												name.Value = userModel.UserInfo.Name;
 
-												tableMobModel.MainInfo
+												oMainInfo
 														.push(name);
 											}
 
@@ -91,7 +101,7 @@ sap.ui
 														.getText("patronymic");
 												patronymic.Value = userModel.UserInfo.Patronymic;
 
-												tableMobModel.MainInfo
+												oMainInfo
 														.push(patronymic);
 											}
 
@@ -103,7 +113,7 @@ sap.ui
 														.getText("date_of_birth");
 												date_of_birth.Value = userModel.UserInfo.DateOfBirth;
 
-												tableMobModel.MainInfo
+												oMainInfo
 														.push(date_of_birth);
 											}
 
@@ -115,7 +125,7 @@ sap.ui
 														.getText("age");
 												age.Value = userModel.UserInfo.Age;
 
-												tableMobModel.MainInfo
+												oMainInfo
 														.push(age);
 											}
 
@@ -127,7 +137,7 @@ sap.ui
 														.getText("typeDoc");
 												select_doc.Value = userModel.UserInfo.SelectDoc;
 
-												tableMobModel.DocInfo
+												oDocInfo
 														.push(select_doc);
 											}
 
@@ -144,7 +154,7 @@ sap.ui
 															+ "/"
 															+ userModel.UserInfo.NumberPas;
 
-													tableMobModel.DocInfo
+													oDocInfo
 															.push(serial_number_pas);
 												}
 
@@ -156,7 +166,7 @@ sap.ui
 															.getText("issued_by");
 													issued_by_pas.Value = userModel.UserInfo.IssuedByPas;
 
-													tableMobModel.DocInfo
+													oDocInfo
 															.push(issued_by_pas);
 												}
 
@@ -168,7 +178,7 @@ sap.ui
 															.getText("date_of_issue");
 													date_of_issue_pas.Value = userModel.UserInfo.DateOfIssuePas;
 
-													tableMobModel.DocInfo
+													oDocInfo
 															.push(date_of_issue_pas);
 												}
 
@@ -180,7 +190,7 @@ sap.ui
 															.getText("unit_code");
 													unit_code_pas.Value = userModel.UserInfo.UnitCodePas;
 
-													tableMobModel.DocInfo
+													oDocInfo
 															.push(unit_code_pas);
 												}
 
@@ -194,7 +204,7 @@ sap.ui
 															.getText("snils_number");
 													snils_number_pas.Value = userModel.UserInfo.SnilsNumberPas;
 
-													tableMobModel.DocInfo
+													oDocInfo
 															.push(snils_number_pas);
 												}
 
@@ -207,7 +217,7 @@ sap.ui
 													year_start.Value = item.YearStart + "г.";
 													
 
-													tableMobModel.EduInfo.push(year_start);
+													oEduInfo.push(year_start);
 												}
 												
 												if (item.YearEnd !== undefined && item.YearEnd !== null	&& item.YearEnd !== "") {
@@ -216,7 +226,7 @@ sap.ui
 													year_end.Value = item.YearEnd + "г.";
 													
 
-													tableMobModel.EduInfo.push(year_end);
+													oEduInfo.push(year_end);
 												}
 												
 												if (item.NameInstitution !== undefined && item.NameInstitution !== null	&& item.NameInstitution !== "") {
@@ -225,7 +235,7 @@ sap.ui
 													name_institution.Value = item.NameInstitution;
 													
 
-													tableMobModel.EduInfo.push(name_institution);
+													oEduInfo.push(name_institution);
 												}
 
 												if (item.NameFaculty !== undefined && item.NameFaculty !== null	&& item.NameFaculty !== "") {
@@ -234,7 +244,7 @@ sap.ui
 													name_faculty.Value = item.NameFaculty;
 													
 
-													tableMobModel.EduInfo.push(name_faculty);
+													oEduInfo.push(name_faculty);
 												}
 												
 												if (item.NamePulpit !== undefined && item.NamePulpit !== null	&& item.NamePulpit !== "") {
@@ -243,14 +253,53 @@ sap.ui
 													name_pulpit.Value = item.NamePulpit;
 													
 
-													tableMobModel.EduInfo.push(name_pulpit);
+													oEduInfo.push(name_pulpit);
 												}
 											});
 											
-											var oTableMobModel = new sap.ui.model.json.JSONModel(tableMobModel);
+											var oTableMain = this.getView().byId("main_table_mob");
+											var oTableDoc = this.getView().byId("doc_table_mob");
+											var oTableEdu = this.getView().byId("edu_table_mob");
 											
-											this.getView().setModel(oTableMobModel);
-										}
+											oMainInfo.forEach(function(item, i) {
+												var oTableMainLis = new sap.m.ColumnListItem({
+												});
+												
+												oTableMainLis.addCell(new sap.m.Text({ text: item.NamePar }));
+												oTableMainLis.addCell(new sap.m.Text({ text: item.Value }));
+												
+												oTableMain.addItem(oTableMainLis);
+											});
+											
+											oDocInfo.forEach(function(item, i) {
+												var oTableMainLis = new sap.m.ColumnListItem({
+												});
+												
+												oTableMainLis.addCell(new sap.m.Text({ text: item.NamePar }));
+												oTableMainLis.addCell(new sap.m.Text({ text: item.Value }));
+												
+												oTableDoc.addItem(oTableMainLis);
+											});
+											
+											oEduInfo.forEach(function(item, i) {
+												var oTableMainLis = new sap.m.ColumnListItem({
+												});
+												
+												oTableMainLis.addCell(new sap.m.Text({ text: item.NamePar }));
+												oTableMainLis.addCell(new sap.m.Text({ text: item.Value }));
+												
+												oTableEdu.addItem(oTableMainLis);
+											});
+										},
+										
+										_onMetadataLoaded: function() {
+											// Store original busy indicator delay for the detail view
+										},
+										
+										_onTableMatched: function(oEvent) {
+
+
+										},
 
 									/**
 									 * Similar to onAfterRendering, but this

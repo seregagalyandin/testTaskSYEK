@@ -35,6 +35,10 @@
 	.button-edu {
 		width: 115px
 	}
+	
+	.button-exp {
+		width: auto;
+	}
 }
 
 @media (min-width:1000px) and (max-width:1199px) {
@@ -67,6 +71,10 @@
 	.button-edu {
 		width: 115px
 	}
+	
+	.button-exp {
+		width: auto;
+	}
 }
 
 @media (min-width:600px) and (max-width:799px) {
@@ -84,6 +92,10 @@
 	
 	.button-edu {
 		width: 115px
+	}
+	
+	.button-exp {
+		width: auto;
 	}
 }
 
@@ -119,6 +131,26 @@
 	.button-edu > span > span:nth-child(2) {
 		display: none;	
 	}
+	
+	.button-exp {
+		max-width: 35px
+	}
+	
+	.button-exp > span {
+		width: 35px !important;
+		padding: 0 !important;
+				
+	}
+	
+	.button-exp > span > span:nth-child(1) {
+		width: 35px !important;
+		padding: 0;
+		margin: 0;	
+	}
+	
+	.button-exp > span > span:nth-child(2) {
+		display: none;	
+	}
 }
 
 .formEducations:hover {
@@ -143,4 +175,8 @@
 	/*padding-top: 0 !important;*/
 	padding-left: 0 !important;
 	padding-right: 0 !important;
+}
+
+.TablePage section {
+	overflow: auto;	
 }

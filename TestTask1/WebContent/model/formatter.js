@@ -4,5 +4,9 @@ sap.ui.define([], function () {
     	isVisible: function(isOne, isTwo) {
     		return isOne && isTwo;
     	},
+    	
+    	Test: function(parName) {
+    		return parName;
+    	}
     };
 });

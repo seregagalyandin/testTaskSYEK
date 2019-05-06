@@ -12,9 +12,28 @@
 	controllerName="sap.myApps.controller.table"
 	xmlns:html="http://www.w3.org/1999/xhtml" height="100%">
 	<m:Page id="TablePage" showHeader="false"
-		enableScrolling="false" class="sapUiContentPadding">
+		enableScrolling="false" class="sapUiContentPadding TablePage">
 		<m:content>
-			<m:Table id="main_table_mob" inset="false" items="{path:'/MainInfo'}"
+			<m:Table id="main_table_mob" items="{path:'TableMob>/MainInfo'}"
+				growing="true" growingThreshold="50">
+				<m:columns>
+					<m:Column>
+						<m:Text text="{i18n>namePar}" />
+					</m:Column>
+					<m:Column>
+						<m:Text text="{i18n>value}" />
+					</m:Column>
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem>
+						<m:cells>
+							<m:Text text="{parts:['NamePar'], formatter:'.formatter.Test'}" />
+							<m:Text text="{Value}" />
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+			<m:Table id="doc_table_mob" items="{path:'TableMob>/DocInfo'}"
 				growing="true" growingThreshold="50">
 				<m:columns>
 					<m:Column>
@@ -33,26 +52,7 @@
 					</m:ColumnListItem>
 				</m:items>
 			</m:Table>
-			<m:Table id="doc_table_mob" inset="false" items="{path:'/DocInfo'}"
-				growing="true" growingThreshold="50">
-				<m:columns>
-					<m:Column>
-						<m:Text text="{i18n>namePar}" />
-					</m:Column>
-					<m:Column>
-						<m:Text text="{i18n>value}" />
-					</m:Column>
-				</m:columns>
-				<m:items>
-					<m:ColumnListItem>
-						<m:cells>
-							<m:Text text="{NamePar}" />
-							<m:Text text="{Value}" />
-						</m:cells>
-					</m:ColumnListItem>
-				</m:items>
-			</m:Table>
-			<m:Table id="edu_table_mob" inset="false" items="{path:'/EduInfo'}"
+			<m:Table id="edu_table_mob" items="{path:'TableMob>/EduInfo'}"
 				growing="true" growingThreshold="50">
 				<m:columns>
 					<m:Column>
@@ -75,10 +75,10 @@
 		<m:footer>
 			<m:Toolbar>
 				<m:ToolbarSpacer />
-				<m:Button icon="sap-icon://create-form" text="{i18n>export_to_xlsx}"
-					type="Accept" press="onCreateAppeal" />
-				<m:Button icon="sap-icon://create-form" text="{i18n>export_to_pdf}"
-					type="Accept" press="onCreateAppeal" />
+				<m:Button icon="sap-icon://excel-attachment" text="{i18n>export_to_xlsx}"
+					type="Accept" press="onCreateAppeal" class="button-exp" />
+				<m:Button icon="sap-icon://pdf-attachment" text="{i18n>export_to_pdf}"
+					type="Accept" press="onCreateAppeal" class="button-exp" />
 			</m:Toolbar>
 		</m:footer>
 	</m:Page>

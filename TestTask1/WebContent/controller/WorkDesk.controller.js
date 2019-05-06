@@ -41,6 +41,8 @@ sap.ui
 										 */
 										onInit : function() {
 
+											this.getRouter().getRoute("main").attachPatternMatched(this._onMasterMatched, this);
+											
 											this
 													.getRouter()
 													.getRoute("main")
@@ -893,13 +895,10 @@ sap.ui
 												this.generToolBar();
 
 												this.contentEducations();
-
-												sap.ui
-														.getCore()
-														.setModel(
-																this
-																		.getView()
-																		.getModel());
+												
+												var oModel = this.getView().getModel();
+												
+												sap.ui.getCore().setModel(oModel);
 
 												var bReplace = true;
 												this.getRouter().navTo("table",
@@ -1554,7 +1553,12 @@ sap.ui
 
 												this.contentEducations();
 											}
-										}
+										},
+										
+										_onMasterMatched: function(oEvent) {
+											var urlPars = new sap.ushell.services.URLParsing();
+											var shell = urlPars.getShellHash(window.location.href);
+										},
 
 									/**
 									 * Similar to onAfterRendering, but this
